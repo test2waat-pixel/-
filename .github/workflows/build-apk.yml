@@ -20,9 +20,8 @@ jobs:
           distribution: temurin
           java-version: 21
 
-      -       - name: Accept Android licenses
+      - name: Accept Android licenses
         run: yes | sdkmanager --licenses > /dev/null || true
-
 
       - name: Build APK
         run: |
@@ -32,7 +31,6 @@ jobs:
           cd "$APP_DIR"
 
           npm install --legacy-peer-deps
-          npm install --legacy-peer-deps @capacitor/core @capacitor/cli @capacitor/android @capgo/capacitor-contacts
 
           if [ ! -f capacitor.config.ts ] && [ ! -f capacitor.config.json ]; then
             printf '{"appId":"com.daftarhisabat.app","appName":"Daftar","webDir":"dist"}' > capacitor.config.json
