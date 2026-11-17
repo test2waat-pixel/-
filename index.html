@@ -1,0 +1,3699 @@
+<!doctype html>
+<html lang="ar" dir="rtl">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0" />
+    <title>دفتر الحسابات — تصميم فراس المحمود</title>
+    <meta name="description" content="تطبيق متقدم لإدارة الحسابات والديون مع دعم الوضع الليلي وتعدد اللغات والنسخ الاحتياطي." />
+    <meta property="og:title" content="دفتر الحسابات — تصميم فراس المحمود" />
+    <meta property="og:description" content="تطبيق متقدم لإدارة الحسابات والديون مع دعم الوضع الليلي وتعدد اللغات والنسخ الاحتياطي." />
+    <meta property="og:type" content="website" />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="theme-color" content="#0f172a" />
+    <meta name="mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+    <meta name="apple-mobile-web-app-title" content="دفترالحسابات" />
+    <link rel="manifest" href="/manifest.json" />
+    <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
+    <link rel="icon" type="image/svg+xml" href="/icon.svg" />
+    <link rel="icon" type="image/png" sizes="192x192" href="/pwa-192x192.png" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;500;600;700;800&family=JetBrains+Mono:wght@500;600;700&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap"
+      rel="stylesheet"
+    />
+    <style>
+      :root {
+        --font-sans: 'Cairo', 'Plus Jakarta Sans', system-ui, -apple-system, sans-serif;
+        --font-mono: 'JetBrains Mono', ui-monospace, SFMono-Regular, monospace;
+
+        --bg-canvas: #f8fafc;
+        --bg-header: rgba(255, 255, 255, 0.88);
+        --bg-surface: #ffffff;
+        --bg-subtle: #f1f5f9;
+        --bg-input: #f8fafc;
+        --bg-dark-card: #0f172a;
+        --bg-dark-card-inner: rgba(255, 255, 255, 0.05);
+
+        --text-primary: #0f172a;
+        --text-secondary: #475569;
+        --text-muted: #64748b;
+
+        --border-hairline: #e2e8f0;
+        --border-strong: #cbd5e1;
+
+        --accent-primary: #0f172a;
+        --accent-primary-hover: #1e293b;
+        --accent-emerald: #059669;
+        --accent-emerald-hover: #047857;
+        --accent-rose: #e11d48;
+        --accent-rose-hover: #be123c;
+        --accent-amber: #d97706;
+
+        --tint-given-bg: rgba(255, 241, 242, 0.8);
+        --tint-given-border: rgba(254, 205, 211, 0.9);
+        --tint-taken-bg: rgba(236, 253, 245, 0.8);
+        --tint-taken-border: rgba(167, 243, 208, 0.9);
+        --tint-amber-bg: #fffbeb;
+        --tint-amber-border: #fde68a;
+        --tint-amber-text: #92400e;
+
+        --shadow-sm: 0 1px 2px rgba(15, 23, 42, 0.05);
+        --shadow-md: 0 8px 24px rgba(15, 23, 42, 0.08);
+        --shadow-lg: 0 16px 36px rgba(15, 23, 42, 0.14);
+        --shadow-xl: 0 24px 48px rgba(0, 0, 0, 0.24);
+      }
+
+      html.dark {
+        --bg-canvas: #020617;
+        --bg-header: rgba(2, 6, 23, 0.88);
+        --bg-surface: #0f172a;
+        --bg-subtle: #1e293b;
+        --bg-input: #020617;
+        --bg-dark-card: #0f172a;
+        --bg-dark-card-inner: rgba(255, 255, 255, 0.04);
+
+        --text-primary: #f1f5f9;
+        --text-secondary: #cbd5e1;
+        --text-muted: #94a3b8;
+
+        --border-hairline: #1e293b;
+        --border-strong: #334155;
+
+        --accent-primary: #059669;
+        --accent-primary-hover: #10b981;
+
+        --tint-given-bg: rgba(76, 5, 25, 0.32);
+        --tint-given-border: rgba(136, 19, 55, 0.6);
+        --tint-taken-bg: rgba(2, 44, 34, 0.34);
+        --tint-taken-border: rgba(6, 78, 59, 0.6);
+        --tint-amber-bg: rgba(69, 26, 3, 0.45);
+        --tint-amber-border: rgba(180, 83, 9, 0.65);
+        --tint-amber-text: #fcd34d;
+
+        --shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.3);
+        --shadow-md: 0 8px 24px rgba(0, 0, 0, 0.35);
+        --shadow-lg: 0 16px 36px rgba(0, 0, 0, 0.45);
+        --shadow-xl: 0 24px 48px rgba(0, 0, 0, 0.6);
+      }
+
+      html[lang="en"],
+      html[lang="fr"],
+      html[lang="tr"] {
+        --font-sans: 'Plus Jakarta Sans', 'Cairo', system-ui, -apple-system, sans-serif;
+      }
+
+      *, *::before, *::after {
+        box-sizing: border-box;
+      }
+
+      html, body {
+        margin: 0;
+        padding: 0;
+        min-height: 100%;
+        font-family: var(--font-sans);
+        background-color: var(--bg-canvas);
+        color: var(--text-primary);
+        -webkit-tap-highlight-color: transparent;
+        transition: background-color 0.2s ease, color 0.2s ease;
+      }
+
+      button, input, textarea {
+        font-family: inherit;
+      }
+
+      .hidden {
+        display: none !important;
+      }
+
+      .font-num {
+        font-family: var(--font-mono);
+        font-variant-numeric: tabular-nums;
+      }
+
+      .tabular-nums {
+        font-variant-numeric: tabular-nums;
+      }
+
+      /* Top Header */
+      .app-header {
+        position: sticky;
+        top: 0;
+        z-index: 30;
+        height: 64px;
+        background: var(--bg-header);
+        backdrop-filter: blur(12px);
+        -webkit-backdrop-filter: blur(12px);
+        border-bottom: 1px solid var(--border-hairline);
+      }
+
+      .header-inner {
+        max-width: 1120px;
+        height: 100%;
+        margin: 0 auto;
+        padding: 0 16px;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 12px;
+      }
+
+      .header-inner.narrow {
+        max-width: 896px;
+      }
+
+      .header-inner.calc-width {
+        max-width: 768px;
+      }
+
+      .icon-btn {
+        min-width: 44px;
+        min-height: 44px;
+        border: none;
+        border-radius: 12px;
+        background: transparent;
+        color: var(--text-primary);
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        cursor: pointer;
+        transition: background-color 0.15s ease, transform 0.15s ease;
+        flex-shrink: 0;
+      }
+
+      .icon-btn:hover {
+        background: var(--bg-subtle);
+      }
+
+      .icon-btn:active {
+        transform: scale(0.95);
+      }
+
+      .icon-btn.danger {
+        color: var(--accent-rose);
+      }
+
+      .icon-btn.danger:hover {
+        background: var(--tint-given-bg);
+      }
+
+      .header-title-wrap {
+        min-width: 0;
+        flex: 1;
+        text-align: center;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+      }
+
+      .header-title {
+        margin: 0;
+        font-size: 17px;
+        font-weight: 800;
+        letter-spacing: -0.01em;
+        color: var(--text-primary);
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        max-width: 220px;
+      }
+
+      .header-subtitle {
+        margin: 0;
+        font-size: 11px;
+        font-weight: 500;
+        color: var(--text-muted);
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        max-width: 220px;
+      }
+
+      .logo-btn {
+        width: 44px;
+        height: 44px;
+        border-radius: 50%;
+        padding: 0;
+        border: 1px solid var(--border-hairline);
+        background: var(--bg-subtle);
+        color: var(--text-secondary);
+        overflow: hidden;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        cursor: pointer;
+        flex-shrink: 0;
+      }
+
+      .logo-btn img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        display: block;
+      }
+
+      /* Page Containers */
+      .main-grid {
+        max-width: 1120px;
+        width: 100%;
+        margin: 0 auto;
+        padding: 20px 16px 112px;
+        display: grid;
+        grid-template-columns: 1fr;
+        gap: 24px;
+        align-items: start;
+      }
+
+      .profile-grid {
+        max-width: 960px;
+        width: 100%;
+        margin: 0 auto;
+        padding: 20px 16px 48px;
+        display: grid;
+        grid-template-columns: 1fr;
+        gap: 24px;
+        align-items: start;
+      }
+
+      .settings-grid {
+        max-width: 896px;
+        width: 100%;
+        margin: 0 auto;
+        padding: 24px 16px 56px;
+        display: grid;
+        grid-template-columns: 1fr;
+        gap: 20px;
+        align-items: start;
+      }
+
+      .calc-container {
+        max-width: 768px;
+        width: 100%;
+        margin: 0 auto;
+        padding: 16px 16px 36px;
+        display: flex;
+        flex-direction: column;
+        gap: 16px;
+      }
+
+      @media (min-width: 960px) {
+        .header-inner {
+          padding: 0 24px;
+        }
+        .main-grid {
+          padding: 24px 24px 100px;
+          grid-template-columns: 5fr 7fr;
+        }
+        .profile-grid {
+          padding: 24px 24px 56px;
+          grid-template-columns: 5fr 7fr;
+        }
+        .settings-grid {
+          padding: 24px 24px 56px;
+          grid-template-columns: 1fr 1fr;
+        }
+        .sticky-col {
+          position: sticky;
+          top: 84px;
+        }
+      }
+
+      .stack-col {
+        display: flex;
+        flex-direction: column;
+        gap: 16px;
+      }
+
+      /* Cards */
+      .surface-card {
+        background: var(--bg-surface);
+        border: 1px solid var(--border-hairline);
+        border-radius: 24px;
+        padding: 20px;
+        box-shadow: var(--shadow-sm);
+      }
+
+      /* Totals Card */
+      .totals-card {
+        position: relative;
+        overflow: hidden;
+        border-radius: 24px;
+        background: var(--bg-dark-card);
+        color: #ffffff;
+        padding: 22px;
+        border: 1px solid #1e293b;
+        box-shadow: var(--shadow-lg);
+      }
+
+      .totals-glow-1,
+      .totals-glow-2 {
+        position: absolute;
+        width: 220px;
+        height: 220px;
+        border-radius: 50%;
+        filter: blur(55px);
+        pointer-events: none;
+      }
+
+      .totals-glow-1 {
+        top: -80px;
+        inset-inline-end: -60px;
+        background: rgba(16, 185, 129, 0.14);
+      }
+
+      .totals-glow-2 {
+        bottom: -90px;
+        inset-inline-start: -60px;
+        background: rgba(244, 63, 94, 0.14);
+      }
+
+      .totals-inner {
+        position: relative;
+        z-index: 1;
+        display: flex;
+        flex-direction: column;
+        gap: 18px;
+      }
+
+      .totals-net-head {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        text-align: center;
+        gap: 6px;
+      }
+
+      .totals-meta {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        font-size: 12px;
+        font-weight: 600;
+        color: #94a3b8;
+      }
+
+      .totals-net-amount {
+        font-size: clamp(28px, 5vw, 38px);
+        font-weight: 800;
+        line-height: 1.15;
+        letter-spacing: -0.02em;
+      }
+
+      .totals-net-state {
+        font-size: 12px;
+        font-weight: 600;
+        color: #cbd5e1;
+      }
+
+      .totals-divider {
+        height: 1px;
+        background: rgba(255, 255, 255, 0.1);
+      }
+
+      .totals-split {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 12px;
+      }
+
+      .totals-box {
+        border-radius: 16px;
+        background: var(--bg-dark-card-inner);
+        border: 1px solid rgba(255, 255, 255, 0.08);
+        padding: 14px;
+        display: flex;
+        flex-direction: column;
+        gap: 4px;
+      }
+
+      .totals-box-label {
+        display: flex;
+        align-items: center;
+        gap: 6px;
+        font-size: 12px;
+        font-weight: 700;
+      }
+
+      .totals-box-val {
+        font-size: 19px;
+        font-weight: 800;
+      }
+
+      .text-rose { color: #fb7185; }
+      .text-emerald { color: #34d399; }
+      .text-rose-ink { color: #e11d48; }
+      .text-emerald-ink { color: #059669; }
+      html.dark .text-rose-ink { color: #fb7185; }
+      html.dark .text-emerald-ink { color: #34d399; }
+
+      /* Search & Filters */
+      .search-row {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+      }
+
+      .input-wrap {
+        position: relative;
+        flex: 1;
+      }
+
+      .input-icon-start {
+        position: absolute;
+        top: 50%;
+        transform: translateY(-50%);
+        inset-inline-start: 14px;
+        color: var(--text-muted);
+        pointer-events: none;
+        display: flex;
+      }
+
+      .input-clear-end {
+        position: absolute;
+        top: 50%;
+        transform: translateY(-50%);
+        inset-inline-end: 6px;
+        min-width: 36px;
+        min-height: 36px;
+        border: none;
+        border-radius: 10px;
+        background: transparent;
+        color: var(--text-muted);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        cursor: pointer;
+      }
+
+      .text-input,
+      .textarea-input {
+        width: 100%;
+        border-radius: 16px;
+        border: 1px solid var(--border-hairline);
+        background: var(--bg-surface);
+        color: var(--text-primary);
+        font-size: 14px;
+        transition: border-color 0.15s ease, box-shadow 0.15s ease;
+      }
+
+      .text-input {
+        height: 48px;
+        padding: 0 14px;
+      }
+
+      .text-input.with-start-icon {
+        padding-inline-start: 42px;
+      }
+
+      .text-input.with-both-icons {
+        padding-inline-start: 42px;
+        padding-inline-end: 42px;
+      }
+
+      .textarea-input {
+        padding: 12px 14px;
+        resize: vertical;
+        min-height: 88px;
+        line-height: 1.55;
+      }
+
+      .text-input:focus,
+      .textarea-input:focus {
+        outline: none;
+        border-color: var(--accent-emerald);
+        box-shadow: 0 0 0 3px rgba(5, 150, 105, 0.15);
+      }
+
+      .dice-btn {
+        min-width: 48px;
+        min-height: 48px;
+        padding: 0 14px;
+        border-radius: 16px;
+        border: 1px solid var(--border-hairline);
+        background: var(--bg-surface);
+        color: var(--text-primary);
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        gap: 6px;
+        font-size: 14px;
+        font-weight: 700;
+        cursor: pointer;
+        transition: all 0.15s ease;
+        flex-shrink: 0;
+      }
+
+      .dice-btn.active {
+        background: var(--accent-primary);
+        border-color: var(--accent-primary);
+        color: #ffffff;
+      }
+
+      .filter-panel {
+        border-radius: 18px;
+        background: var(--bg-surface);
+        border: 1px solid var(--border-hairline);
+        padding: 16px;
+        box-shadow: var(--shadow-md);
+        display: flex;
+        flex-direction: column;
+        gap: 14px;
+      }
+
+      .filter-head {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 8px;
+      }
+
+      .filter-title {
+        margin: 0;
+        font-size: 14px;
+        font-weight: 800;
+      }
+
+      .filter-label {
+        font-size: 12px;
+        font-weight: 700;
+        color: var(--text-muted);
+        margin-bottom: 6px;
+        display: block;
+      }
+
+      .segmented-3 {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        gap: 6px;
+        padding: 4px;
+        border-radius: 12px;
+        background: var(--bg-subtle);
+      }
+
+      .seg-btn {
+        min-height: 40px;
+        padding: 0 8px;
+        border: none;
+        border-radius: 8px;
+        background: transparent;
+        color: var(--text-muted);
+        font-size: 12px;
+        font-weight: 700;
+        cursor: pointer;
+        white-space: nowrap;
+        transition: all 0.15s ease;
+      }
+
+      .seg-btn.active {
+        background: var(--bg-surface);
+        color: var(--text-primary);
+        box-shadow: var(--shadow-sm);
+      }
+
+      .chip-wrap {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 6px;
+      }
+
+      .chip-btn {
+        min-height: 40px;
+        padding: 0 12px;
+        border-radius: 12px;
+        border: 1px solid var(--border-hairline);
+        background: var(--bg-input);
+        color: var(--text-secondary);
+        font-size: 12px;
+        font-weight: 700;
+        cursor: pointer;
+        white-space: nowrap;
+        transition: all 0.15s ease;
+      }
+
+      .chip-btn.active {
+        background: var(--accent-primary);
+        border-color: var(--accent-primary);
+        color: #ffffff;
+      }
+
+      .overdue-toggle-btn {
+        width: 100%;
+        min-height: 50px;
+        padding: 10px 14px;
+        border-radius: 14px;
+        border: 1px solid var(--border-hairline);
+        background: var(--bg-input);
+        color: var(--text-primary);
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 12px;
+        text-align: start;
+        cursor: pointer;
+      }
+
+      .overdue-toggle-btn.active {
+        background: var(--tint-amber-bg);
+        border-color: var(--tint-amber-border);
+        color: var(--tint-amber-text);
+      }
+
+      .switch-track {
+        width: 44px;
+        height: 26px;
+        border-radius: 999px;
+        padding: 3px;
+        background: var(--border-strong);
+        display: flex;
+        align-items: center;
+        justify-content: flex-start;
+        flex-shrink: 0;
+        transition: background-color 0.15s ease;
+      }
+
+      .switch-track.on {
+        background: var(--accent-emerald);
+        justify-content: flex-end;
+      }
+
+      .overdue-toggle-btn.active .switch-track.on {
+        background: var(--accent-amber);
+      }
+
+      .switch-thumb {
+        width: 20px;
+        height: 20px;
+        border-radius: 50%;
+        background: #ffffff;
+        box-shadow: var(--shadow-sm);
+      }
+
+      /* Customer List & Cards */
+      .list-header {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        padding: 0 4px;
+      }
+
+      .list-title {
+        margin: 0;
+        font-size: 14px;
+        font-weight: 800;
+      }
+
+      .list-count {
+        font-size: 12px;
+        font-weight: 600;
+        color: var(--text-muted);
+      }
+
+      .cards-stack {
+        display: flex;
+        flex-direction: column;
+        gap: 10px;
+      }
+
+      .customer-card {
+        width: 100%;
+        min-height: 74px;
+        padding: 16px;
+        border-radius: 18px;
+        border: 1px solid var(--border-hairline);
+        background: var(--bg-surface);
+        color: var(--text-primary);
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 12px;
+        text-align: start;
+        cursor: pointer;
+        transition: border-color 0.15s ease, transform 0.12s ease;
+      }
+
+      .customer-card:hover {
+        border-color: var(--border-strong);
+      }
+
+      .customer-card:active {
+        transform: scale(0.99);
+      }
+
+      .customer-main {
+        min-width: 0;
+        flex: 1;
+        display: flex;
+        flex-direction: column;
+        gap: 4px;
+      }
+
+      .customer-name {
+        font-size: 16px;
+        font-weight: 800;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+      }
+
+      .customer-meta {
+        font-size: 12px;
+        color: var(--text-muted);
+        display: flex;
+        align-items: center;
+        gap: 6px;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+      }
+
+      .overdue-text {
+        font-weight: 700;
+        color: var(--accent-amber);
+      }
+
+      .customer-balance-col {
+        flex-shrink: 0;
+        display: flex;
+        flex-direction: column;
+        align-items: flex-end;
+        gap: 2px;
+      }
+
+      .customer-balance-val {
+        font-size: 17px;
+        font-weight: 800;
+      }
+
+      .customer-balance-tag {
+        font-size: 12px;
+        font-weight: 700;
+      }
+
+      .empty-card {
+        border-radius: 24px;
+        background: var(--bg-surface);
+        border: 1px solid var(--border-hairline);
+        padding: 40px 24px;
+        text-align: center;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 10px;
+      }
+
+      .empty-icon {
+        width: 56px;
+        height: 56px;
+        border-radius: 16px;
+        background: var(--bg-subtle);
+        color: var(--text-muted);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+      }
+
+      /* Floating Action Button (FAB) on the left */
+      .fab-btn {
+        position: fixed;
+        bottom: 20px;
+        left: 20px;
+        z-index: 30;
+        min-height: 52px;
+        padding: 0 20px;
+        border: none;
+        border-radius: 16px;
+        background: var(--accent-primary);
+        color: #ffffff;
+        font-size: 14px;
+        font-weight: 800;
+        display: inline-flex;
+        align-items: center;
+        gap: 8px;
+        box-shadow: var(--shadow-lg);
+        cursor: pointer;
+        transition: transform 0.15s ease, background-color 0.15s ease;
+      }
+
+      .fab-btn:hover {
+        background: var(--accent-primary-hover);
+      }
+
+      .fab-btn:active {
+        transform: scale(0.96);
+      }
+
+      /* Buttons */
+      .btn {
+        min-height: 48px;
+        padding: 0 16px;
+        border-radius: 16px;
+        border: 1px solid transparent;
+        font-size: 14px;
+        font-weight: 700;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        gap: 8px;
+        cursor: pointer;
+        text-decoration: none;
+        transition: transform 0.12s ease, background-color 0.15s ease;
+      }
+
+      .btn:active {
+        transform: scale(0.98);
+      }
+
+      .btn-sm {
+        min-height: 40px;
+        padding: 0 14px;
+        border-radius: 12px;
+        font-size: 12px;
+      }
+
+      .btn-primary {
+        background: var(--accent-primary);
+        color: #ffffff;
+      }
+
+      .btn-primary:hover {
+        background: var(--accent-primary-hover);
+      }
+
+      .btn-secondary {
+        background: var(--bg-subtle);
+        color: var(--text-primary);
+      }
+
+      .btn-outline {
+        background: var(--bg-surface);
+        border-color: var(--border-hairline);
+        color: var(--text-primary);
+      }
+
+      .btn-rose {
+        background: var(--accent-rose);
+        color: #ffffff;
+      }
+
+      .btn-rose:hover {
+        background: var(--accent-rose-hover);
+      }
+
+      .btn-emerald {
+        background: var(--accent-emerald);
+        color: #ffffff;
+      }
+
+      .btn-emerald:hover {
+        background: var(--accent-emerald-hover);
+      }
+
+      .btn-whatsapp {
+        background: #128C7E;
+        color: #ffffff;
+      }
+
+      .btn-whatsapp:hover {
+        background: #0f766a;
+      }
+
+      .btn-amber-soft {
+        background: var(--tint-amber-bg);
+        border-color: var(--tint-amber-border);
+        color: var(--tint-amber-text);
+      }
+
+      .btn-danger-soft {
+        background: var(--tint-given-bg);
+        color: var(--accent-rose);
+      }
+
+      /* Transaction Cards */
+      .tx-card {
+        user-select: none;
+        -webkit-user-select: none;
+        border-radius: 16px;
+        padding: 16px;
+        border: 1px solid var(--border-hairline);
+        box-shadow: var(--shadow-sm);
+        transition: transform 0.15s ease, opacity 0.15s ease;
+      }
+
+      .tx-card.given {
+        background: var(--tint-given-bg);
+        border-color: var(--tint-given-border);
+      }
+
+      .tx-card.taken {
+        background: var(--tint-taken-bg);
+        border-color: var(--tint-taken-border);
+      }
+
+      .tx-card.pressing {
+        transform: scale(0.975);
+        opacity: 0.78;
+      }
+
+      .tx-row {
+        display: flex;
+        align-items: flex-start;
+        justify-content: space-between;
+        gap: 12px;
+      }
+
+      .tx-info {
+        min-width: 0;
+        flex: 1;
+        display: flex;
+        flex-direction: column;
+        gap: 4px;
+      }
+
+      .tx-meta {
+        display: flex;
+        align-items: center;
+        flex-wrap: wrap;
+        gap: 6px;
+        font-size: 12px;
+      }
+
+      .tx-note {
+        margin: 0;
+        font-size: 14px;
+        font-weight: 600;
+        color: var(--text-primary);
+        word-break: break-word;
+      }
+
+      .tx-amount {
+        font-size: 18px;
+        font-weight: 800;
+        flex-shrink: 0;
+      }
+
+      /* Calculator */
+      .calc-display {
+        border-radius: 24px;
+        background: #0f172a;
+        color: #ffffff;
+        padding: 20px;
+        border: 1px solid #1e293b;
+        display: flex;
+        flex-direction: column;
+        gap: 8px;
+      }
+
+      .calc-expr-row {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 8px;
+        min-height: 36px;
+      }
+
+      .calc-expr {
+        font-size: 14px;
+        color: #94a3b8;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+      }
+
+      .calc-mini-btn {
+        min-width: 40px;
+        min-height: 36px;
+        padding: 0 12px;
+        border: none;
+        border-radius: 10px;
+        background: rgba(255, 255, 255, 0.12);
+        color: #f8fafc;
+        font-size: 12px;
+        font-weight: 700;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        cursor: pointer;
+      }
+
+      .calc-result {
+        font-size: clamp(34px, 7vw, 48px);
+        font-weight: 800;
+        text-align: end;
+        line-height: 1.1;
+      }
+
+      .calc-keypad {
+        display: grid;
+        grid-template-columns: repeat(4, 1fr);
+        gap: 10px;
+        direction: ltr;
+        user-select: none;
+      }
+
+      .calc-key {
+        min-height: 58px;
+        border-radius: 16px;
+        border: 1px solid var(--border-hairline);
+        background: var(--bg-surface);
+        color: var(--text-primary);
+        font-size: 20px;
+        font-weight: 700;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        cursor: pointer;
+        transition: transform 0.1s ease, background-color 0.12s ease;
+      }
+
+      .calc-key:active {
+        transform: scale(0.95);
+      }
+
+      .calc-key.op {
+        background: var(--bg-subtle);
+        border-color: transparent;
+        color: var(--accent-emerald);
+      }
+
+      .calc-key.eq {
+        background: var(--accent-primary);
+        border-color: transparent;
+        color: #ffffff;
+      }
+
+      /* Modals */
+      .modal-backdrop {
+        position: fixed;
+        inset: 0;
+        z-index: 50;
+        background: rgba(0, 0, 0, 0.55);
+        backdrop-filter: blur(4px);
+        display: flex;
+        align-items: flex-end;
+        justify-content: center;
+        padding: 0;
+      }
+
+      .modal-backdrop.center {
+        align-items: center;
+        padding: 16px;
+      }
+
+      .modal-sheet {
+        width: 100%;
+        max-width: 448px;
+        border-radius: 24px 24px 0 0;
+        background: var(--bg-surface);
+        border: 1px solid var(--border-hairline);
+        padding: 24px;
+        box-shadow: var(--shadow-xl);
+        display: flex;
+        flex-direction: column;
+        gap: 18px;
+      }
+
+      .modal-dialog {
+        width: 100%;
+        max-width: 384px;
+        border-radius: 24px;
+        background: var(--bg-surface);
+        border: 1px solid var(--border-hairline);
+        padding: 24px;
+        box-shadow: var(--shadow-xl);
+        display: flex;
+        flex-direction: column;
+        gap: 16px;
+      }
+
+      @media (min-width: 640px) {
+        .modal-backdrop {
+          align-items: center;
+          padding: 16px;
+        }
+        .modal-sheet {
+          border-radius: 24px;
+        }
+      }
+
+      .grab-bar {
+        width: 40px;
+        height: 5px;
+        border-radius: 999px;
+        background: var(--border-strong);
+        margin: -8px auto 0;
+      }
+
+      @media (min-width: 640px) {
+        .grab-bar { display: none; }
+      }
+
+      /* Banner & Toast */
+      .reminder-banner {
+        border-radius: 18px;
+        background: var(--tint-amber-bg);
+        border: 1px solid var(--tint-amber-border);
+        color: var(--tint-amber-text);
+        padding: 14px 16px;
+        display: flex;
+        flex-direction: column;
+        gap: 10px;
+      }
+
+      .install-banner {
+        border-radius: 18px;
+        background: var(--tint-taken-bg);
+        border: 1px solid var(--tint-taken-border);
+        color: var(--text-primary);
+        padding: 14px 16px;
+        display: flex;
+        flex-direction: column;
+        gap: 10px;
+      }
+
+      .offline-strip {
+        border-radius: 14px;
+        background: var(--bg-subtle);
+        border: 1px solid var(--border-hairline);
+        color: var(--text-secondary);
+        padding: 10px 14px;
+        font-size: 12px;
+        font-weight: 700;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 8px;
+      }
+
+      .toast {
+        position: fixed;
+        bottom: 84px;
+        left: 50%;
+        transform: translateX(-50%);
+        z-index: 60;
+        padding: 10px 18px;
+        border-radius: 14px;
+        background: #0f172a;
+        color: #ffffff;
+        font-size: 13px;
+        font-weight: 700;
+        border: 1px solid rgba(255, 255, 255, 0.12);
+        box-shadow: var(--shadow-lg);
+        white-space: nowrap;
+      }
+
+      .divider-line {
+        height: 1px;
+        background: var(--border-hairline);
+      }
+
+      .preview-box {
+        border-radius: 14px;
+        background: var(--bg-subtle);
+        padding: 12px;
+        font-size: 12px;
+        color: var(--text-secondary);
+        line-height: 1.6;
+        white-space: pre-line;
+      }
+
+      .logo-preview {
+        width: 64px;
+        height: 64px;
+        border-radius: 50%;
+        border: 1px solid var(--border-hairline);
+        background: var(--bg-subtle);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        overflow: hidden;
+        flex-shrink: 0;
+      }
+
+      .logo-preview img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+      }
+
+      @media (prefers-reduced-motion: reduce) {
+        *, *::before, *::after {
+          transition-duration: 0.01ms !important;
+          animation-duration: 0.01ms !important;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <div id="app"></div>
+
+    <!-- Modal Container -->
+    <div id="modal-root"></div>
+
+    <!-- Toast Container -->
+    <div id="toast-root"></div>
+
+    <script>
+      (function () {
+        'use strict';
+
+        // ============================================================
+        // 1. CONSTANTS & STORAGE KEYS
+        // ============================================================
+        const STORAGE_KEYS = {
+          CUSTOMERS: 'daftar_hisabat_customers_v1',
+          TRANSACTIONS: 'daftar_hisabat_transactions_v1',
+          SETTINGS: 'daftar_hisabat_settings_v1',
+        };
+
+        const TWELVE_HOURS_MS = 12 * 60 * 60 * 1000;
+
+        const COUNTRY_CODES = [
+          { code: '+90', label: '🇹🇷 +90' },
+          { code: '+963', label: '🇸🇾 +963' },
+          { code: '+966', label: '🇸🇦 +966' },
+          { code: '+971', label: '🇦🇪 +971' },
+          { code: '+962', label: '🇯🇴 +962' },
+          { code: '+961', label: '🇱🇧 +961' },
+          { code: '+964', label: '🇮🇶 +964' },
+          { code: '+20', label: '🇪🇬 +20' },
+          { code: '+212', label: '🇲🇦 +212' },
+          { code: '+33', label: '🇫🇷 +33' },
+          { code: '+49', label: '🇩🇪 +49' },
+          { code: '+1', label: '🇺🇸 +1' },
+        ];
+
+        const DEFAULT_REMINDER_TEMPLATES = {
+          ar: 'مرحباً {name}، نود تذكيركم بلطف بأن الرصيد المستحق عليكم هو {balance}. شاكرين تعاونكم.',
+          en: 'Hello {name}, a friendly reminder that your current due balance is {balance}. Thank you.',
+          fr: 'Bonjour {name}, petit rappel : votre solde dû est de {balance}. Merci pour votre confiance.',
+          tr: 'Merhaba {name}, güncel borç bakiyenizin {balance} olduğunu nazikçe hatırlatmak isteriz. Teşekkürler.',
+        };
+
+        // ============================================================
+        // 2. TRANSLATIONS (AR, EN, FR, TR)
+        // ============================================================
+        const TRANSLATIONS = {
+          ar: {
+            appName: 'دفتر الحسابات',
+            designedBy: 'تصميم فراس المحمود',
+            settings: 'الإعدادات',
+            back: 'رجوع',
+            save: 'حفظ',
+            cancel: 'إلغاء',
+            confirm: 'تأكيد',
+            delete: 'حذف',
+            edit: 'تعديل',
+            close: 'إغلاق',
+
+            netBalance: 'صافي الحساب المتبقي',
+            netInYourFavor: 'صافي لك في السوق',
+            netYouOwe: 'صافي مطلوب منك',
+            netSettled: 'الحسابات متوازنة',
+            totalGiven: 'إجمالي ما أعطيت',
+            totalTaken: 'إجمالي ما أخذت',
+
+            searchPlaceholder: 'ابحث باسم العميل أو الرقم...',
+            filtersTitle: 'خيارات الفلترة والترتيب',
+            resetFilters: 'إعادة ضبط',
+            accountTypeLabel: 'نوع الحساب',
+            filterAll: 'الكل',
+            filterOwesMe: 'لك عليه',
+            filterIOwe: 'له عليك',
+            timeRangeLabel: 'الوقت والترتيب',
+            sortNewest: 'الأحدث',
+            sortOldest: 'الأقدم',
+            last24Hours: 'آخر 24 ساعة',
+            lastWeek: 'آخر أسبوع',
+            lastMonth: 'آخر شهر',
+            overdueLabel: 'المتأخرين عن السداد',
+            overdueHint: 'عملاء لديهم دين مستحق مضى عليه أكثر من 7 أيام',
+
+            customersTitle: 'قائمة العملاء',
+            customersCount: 'عميل',
+            addCustomerFab: '+ إضافة عميل 👤',
+            noCustomersTitle: 'دفترك فارغ حالياً',
+            noCustomersDesc: 'ابدأ بإضافة أول عميل لتسجيل الديون والدفعات ومتابعتها بسهولة.',
+            noResultsTitle: 'لا توجد نتائج مطابقة',
+            noResultsDesc: 'جرّب تغيير كلمات البحث أو إعادة ضبط الفلاتر.',
+            givenTag: 'أعطيت',
+            takenTag: 'أخذت',
+            settledTag: 'مصفر',
+            owesYouShort: 'لك عليه',
+            youOweShort: 'له عليك',
+            noTransactionsYet: 'لا توجد عمليات بعد',
+            overdueBadge: 'متأخر بالسداد',
+
+            addCustomerTitle: 'إضافة عميل جديد',
+            editCustomerTitle: 'تعديل بيانات العميل',
+            customerNameLabel: 'اسم العميل',
+            customerNamePlaceholder: 'مثال: أحمد محمد',
+            phoneLabel: 'رقم الهاتف',
+            phonePlaceholder: 'مثال: 5312345678',
+            pickFromContacts: 'جلب من سجل الهاتف',
+            contactsUnsupportedHint: 'متصفحك الحالي لا يدعم الوصول المباشر لسجل الهاتف؛ يمكنك استيراد بطاقة جهة اتصال (.vcf) أو إدخال الرقم يدوياً.',
+            contactNoPhoneError: 'لم يتم العثور على رقم هاتف في جهة الاتصال المختارة',
+            countryCodeHint: 'يُضاف رمز الدولة تلقائياً:',
+            nameRequiredError: 'يرجى إدخال اسم العميل',
+            customerAdded: 'تمت إضافة العميل بنجاح',
+            customerUpdated: 'تم تحديث بيانات العميل',
+            customerDeleted: 'تم حذف العميل وعملياته',
+
+            currentBalance: 'الرصيد الحالي',
+            owesYouStatus: 'لك عليه',
+            youOweStatus: 'له عليك',
+            settledStatus: 'مصفر',
+            sendWhatsAppStatement: 'إرسال كشف عبر واتساب',
+            sendWhatsAppReminder: 'تذكير بالسداد عبر واتساب',
+            copyStatement: 'نسخ الكشف',
+            statementCopied: 'تم نسخ كشف الحساب',
+            noPhoneWarning: 'أضف رقم هاتف للعميل لإرسال الرسالة مباشرة عبر واتساب',
+            giveButton: 'أعطيت (لك عليه)',
+            takeButton: 'أخذت (له عليك)',
+            transactionsHistory: 'سجل العمليات المالية',
+            longPressHint: 'اضغط مطولاً على أي عملية لحذفها',
+            emptyTransactions: 'لا توجد عمليات مسجلة لهذا العميل حتى الآن',
+            deleteTransactionTitle: 'حذف العملية',
+            deleteTransactionConfirm: 'هل أنت متأكد من حذف هذه العملية؟ سيتم تحديث رصيد العميل فوراً.',
+            deleteCustomerTitle: 'حذف العميل',
+            deleteCustomerConfirm: 'هل تريد حذف هذا العميل وكافة عملياته المالية نهائياً؟',
+            transactionDeleted: 'تم حذف العملية وتحديث الرصيد',
+
+            calcTitleGiven: 'تسجيل عملية: أعطيت (لك عليه)',
+            calcTitleTaken: 'تسجيل عملية: أخذت (له عليك)',
+            noteLabel: 'الملاحظات',
+            notePlaceholder: 'اكتب بياناً أو كلمة "حذف" للتراجع عن آخر عملية...',
+            dateTimeLabel: 'التاريخ والوقت',
+            smartUndoDetected: 'تم تفعيل التراجع الذكي: حذف العملية الأخيرة فوراً',
+            smartUndoButton: 'حذف العملية الأخيرة الآن',
+            smartUndoDone: 'تم التراجع وحذف العملية الأخيرة بنجاح',
+            smartUndoEmpty: 'لا توجد عمليات سابقة لحذفها لهذا العميل',
+            confirmTransaction: 'تأكيد وإضافة العملية',
+            invalidAmountError: 'يرجى إدخال مبلغ صحيح أكبر من صفر',
+            transactionAdded: 'تم تسجيل العملية وتحديث الرصيد',
+
+            settingsTitle: 'إعدادات التطبيق',
+            storeLogoSection: 'شعار المحل',
+            uploadLogo: 'رفع شعار المحل',
+            changeLogo: 'تغيير الشعار',
+            removeLogo: 'حذف الشعار',
+            languageSection: 'لغة التطبيق',
+            storeNameSection: 'اسم المحل / النشاط التجاري',
+            storeNamePlaceholder: 'مثال: متجر البركة',
+            countryCodeSection: 'رمز الدولة الافتراضي',
+            countryCodeCustom: 'رمز مخصص (مثل +90)',
+            reminderTemplateSection: 'قالب رسالة التذكير للمتأخرين',
+            reminderTemplateHelp: 'استخدم المتغيرات التلقائية ليتم استبدالها باسم العميل والمبلغ عند الإرسال:',
+            insertVarName: 'إدراج {name}',
+            insertVarBalance: 'إدراج {balance}',
+            templatePreview: 'معاينة الرسالة:',
+            appearanceSection: 'المظهر',
+            darkModeLabel: 'الوضع الليلي (Dark Mode)',
+            darkModeDesc: 'تبديل مظهر التطبيق بين الوضع النهاري والليلي',
+            backupSection: 'النسخ الاحتياطي والاستعادة',
+            exportBackup: 'حفظ نسخة احتياطية (JSON)',
+            shareBackup: 'مشاركة النسخة الاحتياطية',
+            sendBackupToGmail: 'إرسال النسخة الاحتياطية إلى Gmail',
+            gmailRecipientLabel: 'بريد Gmail المستلم (اختياري)',
+            gmailRecipientPlaceholder: 'example@gmail.com',
+            gmailBackupReadyHint: 'يتم تنزيل ملف النسخة الاحتياطية (.json) وفتح Gmail لإرساله كمرفق، أو مشاركته مباشرة مع تطبيق Gmail على الهاتف.',
+            restoreBackup: 'استعادة من ملف سابق',
+            lastBackupLabel: 'آخر نسخة احتياطية:',
+            neverBackedUp: 'لم يتم أخذ نسخة احتياطية بعد',
+            backupSuccess: 'تم حفظ النسخة الاحتياطية بنجاح',
+            restoreConfirmTitle: 'استعادة النسخة الاحتياطية',
+            restoreConfirmDesc: 'سيتم استبدال البيانات الحالية بالبيانات الموجودة في الملف. هل تريد المتابعة؟',
+            restoreSuccess: 'تمت استعادة البيانات بنجاح',
+            restoreInvalidError: 'الملف المختار غير صالح أو تالف',
+            backupReminderBannerTitle: 'تذكير النسخ الاحتياطي (12 ساعة)',
+            backupReminderBannerDesc: 'مضى أكثر من 12 ساعة على آخر نسخة احتياطية لحساباتك.',
+            backupNowBtn: 'نسخ احتياطي الآن',
+            snoozeReminderBtn: 'تأجيل',
+            settingsSaved: 'تم حفظ الإعدادات',
+
+            waStatementTitle: 'كشف حساب تفصيلي',
+            waCustomerLabel: 'العميل',
+            waStatusLabel: 'حالة الحساب',
+            waBalanceLabel: 'الرصيد المتبقي',
+            waRecentOps: 'آخر العمليات',
+
+            justNow: 'الآن',
+            minutesAgo: 'منذ {n} د',
+            hoursAgo: 'منذ {n} س',
+            daysAgo: 'منذ {n} ي',
+            monthsAgo: 'منذ {n} ش',
+
+            pwaInstallSection: 'تثبيت التطبيق على الهاتف (PWA)',
+            pwaInstallTitle: 'تثبيت "دفتر الحسابات" على الشاشة الرئيسية',
+            pwaInstallDesc: 'ثبّت التطبيق ليعمل كبرنامج مستقل على Android دون الحاجة إلى إنترنت، مع بقاء كافة بياناتك محلية على جهازك.',
+            pwaInstallBtn: 'تثبيت التطبيق الآن',
+            pwaInstalledBadge: 'التطبيق مثبت ويعمل بوضع التطبيق المستقل',
+            pwaAndroidHint: 'افتح قائمة متصفح Chrome (⋮) واختر "تثبيت التطبيق" أو "الإضافة إلى الشاشة الرئيسية".',
+            pwaIOSHint: 'في Safari اضغط زر المشاركة ثم اختر "إضافة إلى الشاشة الرئيسية".',
+            offlineBannerText: 'أنت تعمل الآن دون إنترنت — بياناتك محفوظة محلياً على جهازك',
+            contactsBlockedHint: 'تعذّر فتح سجل الهاتف في هذا السياق (تأكد من منح الإذن في Chrome Android). يمكنك استيراد ملف (.vcf) أو إدخال الرقم يدوياً.',
+            choosePhoneNumberLabel: 'اختر رقم الهاتف:',
+          },
+          en: {
+            appName: 'Accounts Ledger',
+            designedBy: 'Designed by Firas Al-Mahmoud',
+            settings: 'Settings',
+            back: 'Back',
+            save: 'Save',
+            cancel: 'Cancel',
+            confirm: 'Confirm',
+            delete: 'Delete',
+            edit: 'Edit',
+            close: 'Close',
+
+            netBalance: 'Net Remaining Balance',
+            netInYourFavor: 'Net owed to you',
+            netYouOwe: 'Net you owe',
+            netSettled: 'All accounts settled',
+            totalGiven: 'Total Given',
+            totalTaken: 'Total Taken',
+
+            searchPlaceholder: 'Search customer name or phone...',
+            filtersTitle: 'Filters & Sorting',
+            resetFilters: 'Reset',
+            accountTypeLabel: 'Account Type',
+            filterAll: 'All',
+            filterOwesMe: 'Owes You',
+            filterIOwe: 'You Owe',
+            timeRangeLabel: 'Time & Sort',
+            sortNewest: 'Newest',
+            sortOldest: 'Oldest',
+            last24Hours: 'Last 24 Hours',
+            lastWeek: 'Last Week',
+            lastMonth: 'Last Month',
+            overdueLabel: 'Overdue Payments',
+            overdueHint: 'Customers owing money for more than 7 days',
+
+            customersTitle: 'Customers',
+            customersCount: 'customers',
+            addCustomerFab: '+ Add Customer 👤',
+            noCustomersTitle: 'Your ledger is empty',
+            noCustomersDesc: 'Add your first customer to start tracking debts and payments effortlessly.',
+            noResultsTitle: 'No matching customers',
+            noResultsDesc: 'Try adjusting your search query or resetting active filters.',
+            givenTag: 'Given',
+            takenTag: 'Taken',
+            settledTag: 'Settled',
+            owesYouShort: 'Owes You',
+            youOweShort: 'You Owe',
+            noTransactionsYet: 'No transactions yet',
+            overdueBadge: 'Overdue',
+
+            addCustomerTitle: 'Add New Customer',
+            editCustomerTitle: 'Edit Customer',
+            customerNameLabel: 'Customer Name',
+            customerNamePlaceholder: 'e.g., Ahmad Mohammad',
+            phoneLabel: 'Phone Number',
+            phonePlaceholder: 'e.g., 5312345678',
+            pickFromContacts: 'Pick from Phone Contacts',
+            contactsUnsupportedHint: 'Direct contact picker is unavailable in this browser; import a .vcf contact card or enter the number manually.',
+            contactNoPhoneError: 'No phone number found in the selected contact',
+            countryCodeHint: 'Default country code applied:',
+            nameRequiredError: 'Please enter the customer name',
+            customerAdded: 'Customer added successfully',
+            customerUpdated: 'Customer details updated',
+            customerDeleted: 'Customer and transactions deleted',
+
+            currentBalance: 'Current Balance',
+            owesYouStatus: 'Owes You',
+            youOweStatus: 'You Owe',
+            settledStatus: 'Settled',
+            sendWhatsAppStatement: 'Send Statement via WhatsApp',
+            sendWhatsAppReminder: 'Send Payment Reminder',
+            copyStatement: 'Copy Statement',
+            statementCopied: 'Statement copied to clipboard',
+            noPhoneWarning: 'Add a phone number to send directly via WhatsApp',
+            giveButton: 'Gave (Owes You)',
+            takeButton: 'Took (You Owe)',
+            transactionsHistory: 'Transaction History',
+            longPressHint: 'Long-press any transaction card to delete it',
+            emptyTransactions: 'No transactions recorded for this customer yet',
+            deleteTransactionTitle: 'Delete Transaction',
+            deleteTransactionConfirm: 'Delete this transaction? The customer balance will update immediately.',
+            deleteCustomerTitle: 'Delete Customer',
+            deleteCustomerConfirm: 'Permanently delete this customer and all their transactions?',
+            transactionDeleted: 'Transaction deleted and balance updated',
+
+            calcTitleGiven: 'Record: Gave (Owes You)',
+            calcTitleTaken: 'Record: Took (You Owe)',
+            noteLabel: 'Notes',
+            notePlaceholder: 'Add a note or type "حذف" / "delete" to undo last entry...',
+            dateTimeLabel: 'Date & Time',
+            smartUndoDetected: 'Smart Undo Ready: Delete the last transaction immediately',
+            smartUndoButton: 'Delete Last Transaction Now',
+            smartUndoDone: 'Last transaction undone and deleted',
+            smartUndoEmpty: 'No previous transaction to undo for this customer',
+            confirmTransaction: 'Confirm & Add Transaction',
+            invalidAmountError: 'Please enter a valid amount greater than zero',
+            transactionAdded: 'Transaction recorded and balance updated',
+
+            settingsTitle: 'App Settings',
+            storeLogoSection: 'Store Logo',
+            uploadLogo: 'Upload Logo',
+            changeLogo: 'Change Logo',
+            removeLogo: 'Remove Logo',
+            languageSection: 'Application Language',
+            storeNameSection: 'Store Name',
+            storeNamePlaceholder: 'e.g., Al-Baraka Store',
+            countryCodeSection: 'Default Country Code',
+            countryCodeCustom: 'Custom code (e.g. +90)',
+            reminderTemplateSection: 'Overdue Reminder Template',
+            reminderTemplateHelp: 'Use variables below; they will auto-fill customer name and due amount:',
+            insertVarName: 'Insert {name}',
+            insertVarBalance: 'Insert {balance}',
+            templatePreview: 'Message Preview:',
+            appearanceSection: 'Appearance',
+            darkModeLabel: 'Dark Mode',
+            darkModeDesc: 'Switch between light and dark themes',
+            backupSection: 'Backup & Restore',
+            exportBackup: 'Download Backup (JSON)',
+            shareBackup: 'Share Backup File',
+            sendBackupToGmail: 'Send Backup to Gmail',
+            gmailRecipientLabel: 'Recipient Gmail (optional)',
+            gmailRecipientPlaceholder: 'example@gmail.com',
+            gmailBackupReadyHint: 'Downloads the .json backup and opens Gmail compose to attach it (or use mobile Share for the Gmail app).',
+            restoreBackup: 'Restore from JSON File',
+            lastBackupLabel: 'Last backup:',
+            neverBackedUp: 'No backup created yet',
+            backupSuccess: 'Backup saved successfully',
+            restoreConfirmTitle: 'Restore Backup',
+            restoreConfirmDesc: 'This will replace all current customers and transactions with the backup file. Continue?',
+            restoreSuccess: 'Data restored successfully',
+            restoreInvalidError: 'Selected file is invalid or corrupted',
+            backupReminderBannerTitle: '12-Hour Backup Reminder',
+            backupReminderBannerDesc: 'More than 12 hours have passed since your last backup.',
+            backupNowBtn: 'Backup Now',
+            snoozeReminderBtn: 'Later',
+            settingsSaved: 'Settings saved',
+
+            waStatementTitle: 'Account Statement',
+            waCustomerLabel: 'Customer',
+            waStatusLabel: 'Status',
+            waBalanceLabel: 'Remaining Balance',
+            waRecentOps: 'Recent Transactions',
+
+            justNow: 'Just now',
+            minutesAgo: '{n}m ago',
+            hoursAgo: '{n}h ago',
+            daysAgo: '{n}d ago',
+            monthsAgo: '{n}mo ago',
+
+            pwaInstallSection: 'Install App (PWA)',
+            pwaInstallTitle: 'Install "Accounts Ledger" on Home Screen',
+            pwaInstallDesc: 'Install for offline use on Android as a standalone app while keeping all debt data stored locally on your device.',
+            pwaInstallBtn: 'Install App',
+            pwaInstalledBadge: 'Installed and running in standalone mode',
+            pwaAndroidHint: 'Open Chrome menu (⋮) and tap "Install app" or "Add to Home screen".',
+            pwaIOSHint: 'In Safari tap the Share button then "Add to Home Screen".',
+            offlineBannerText: 'Offline Mode — Your ledger data stays safely stored on this device',
+            contactsBlockedHint: 'Could not access device contacts here (ensure permission is granted on Chrome Android). You can import a .vcf card or type the number.',
+            choosePhoneNumberLabel: 'Choose phone number:',
+          },
+          fr: {
+            appName: 'Grand Livre des Comptes',
+            designedBy: 'Conçu par Firas Al-Mahmoud',
+            settings: 'Paramètres',
+            back: 'Retour',
+            save: 'Enregistrer',
+            cancel: 'Annuler',
+            confirm: 'Confirmer',
+            delete: 'Supprimer',
+            edit: 'Modifier',
+            close: 'Fermer',
+
+            netBalance: 'Solde Net Restant',
+            netInYourFavor: 'Net en votre faveur',
+            netYouOwe: 'Net que vous devez',
+            netSettled: 'Comptes équilibrés',
+            totalGiven: 'Total Donné',
+            totalTaken: 'Total Reçu',
+
+            searchPlaceholder: 'Rechercher un client ou numéro...',
+            filtersTitle: 'Filtres et Tri',
+            resetFilters: 'Réinitialiser',
+            accountTypeLabel: 'Type de Compte',
+            filterAll: 'Tous',
+            filterOwesMe: 'Vous doit',
+            filterIOwe: 'Vous devez',
+            timeRangeLabel: 'Période et Tri',
+            sortNewest: 'Plus récent',
+            sortOldest: 'Plus ancien',
+            last24Hours: 'Dernières 24h',
+            lastWeek: 'Dernière semaine',
+            lastMonth: 'Dernier mois',
+            overdueLabel: 'Paiements en retard',
+            overdueHint: 'Clients débiteurs inactifs depuis plus de 7 jours',
+
+            customersTitle: 'Clients',
+            customersCount: 'clients',
+            addCustomerFab: '+ Ajouter Client 👤',
+            noCustomersTitle: 'Votre grand livre est vide',
+            noCustomersDesc: 'Ajoutez votre premier client pour suivre les dettes et paiements.',
+            noResultsTitle: 'Aucun résultat',
+            noResultsDesc: 'Essayez de modifier votre recherche ou de réinitialiser les filtres.',
+            givenTag: 'Donné',
+            takenTag: 'Reçu',
+            settledTag: 'Soldé',
+            owesYouShort: 'Vous doit',
+            youOweShort: 'Vous devez',
+            noTransactionsYet: 'Aucune opération',
+            overdueBadge: 'En retard',
+
+            addCustomerTitle: 'Nouveau Client',
+            editCustomerTitle: 'Modifier Client',
+            customerNameLabel: 'Nom du Client',
+            customerNamePlaceholder: 'Ex: Ahmad Mohammad',
+            phoneLabel: 'Numéro de Téléphone',
+            phonePlaceholder: 'Ex: 5312345678',
+            pickFromContacts: 'Choisir dans les Contacts',
+            contactsUnsupportedHint: 'Le sélecteur direct n’est pas pris en charge ici ; importez un fichier .vcf ou saisissez le numéro.',
+            contactNoPhoneError: 'Aucun numéro trouvé dans le contact sélectionné',
+            countryCodeHint: 'Indicatif par défaut appliqué :',
+            nameRequiredError: 'Veuillez saisir le nom du client',
+            customerAdded: 'Client ajouté avec succès',
+            customerUpdated: 'Client mis à jour',
+            customerDeleted: 'Client et opérations supprimés',
+
+            currentBalance: 'Solde Actuel',
+            owesYouStatus: 'Vous doit',
+            youOweStatus: 'Vous devez',
+            settledStatus: 'Soldé',
+            sendWhatsAppStatement: 'Envoyer relevé via WhatsApp',
+            sendWhatsAppReminder: 'Envoyer un rappel',
+            copyStatement: 'Copier le relevé',
+            statementCopied: 'Relevé copié',
+            noPhoneWarning: 'Ajoutez un numéro pour envoyer directement sur WhatsApp',
+            giveButton: 'Donné (Vous doit)',
+            takeButton: 'Reçu (Vous devez)',
+            transactionsHistory: 'Historique des Opérations',
+            longPressHint: 'Appui long sur une opération pour la supprimer',
+            emptyTransactions: 'Aucune opération enregistrée pour ce client',
+            deleteTransactionTitle: 'Supprimer l’opération',
+            deleteTransactionConfirm: 'Supprimer cette opération ? Le solde sera mis à jour immédiatement.',
+            deleteCustomerTitle: 'Supprimer le client',
+            deleteCustomerConfirm: 'Supprimer définitivement ce client et toutes ses opérations ?',
+            transactionDeleted: 'Opération supprimée',
+
+            calcTitleGiven: 'Opération : Donné (Vous doit)',
+            calcTitleTaken: 'Opération : Reçu (Vous devez)',
+            noteLabel: 'Notes',
+            notePlaceholder: 'Note ou tapez "حذف" / "supprimer" pour annuler la dernière...',
+            dateTimeLabel: 'Date et Heure',
+            smartUndoDetected: 'Annulation intelligente : Supprimer la dernière opération',
+            smartUndoButton: 'Supprimer la dernière opération',
+            smartUndoDone: 'Dernière opération supprimée',
+            smartUndoEmpty: 'Aucune opération précédente à supprimer',
+            confirmTransaction: 'Confirmer et Ajouter',
+            invalidAmountError: 'Veuillez saisir un montant valide supérieur à zéro',
+            transactionAdded: 'Opération ajoutée et solde mis à jour',
+
+            settingsTitle: 'Paramètres',
+            storeLogoSection: 'Logo du Magasin',
+            uploadLogo: 'Importer un Logo',
+            changeLogo: 'Changer le Logo',
+            removeLogo: 'Supprimer',
+            languageSection: 'Langue',
+            storeNameSection: 'Nom du Magasin',
+            storeNamePlaceholder: 'Ex: Magasin Al-Baraka',
+            countryCodeSection: 'Indicatif Téléphonique par Défaut',
+            countryCodeCustom: 'Indicatif personnalisé (ex: +33)',
+            reminderTemplateSection: 'Modèle de Message de Rappel',
+            reminderTemplateHelp: 'Utilisez les variables pour insérer le nom et le solde :',
+            insertVarName: 'Insérer {name}',
+            insertVarBalance: 'Insérer {balance}',
+            templatePreview: 'Aperçu :',
+            appearanceSection: 'Apparence',
+            darkModeLabel: 'Mode Sombre',
+            darkModeDesc: 'Basculer entre le thème clair et sombre',
+            backupSection: 'Sauvegarde et Restauration',
+            exportBackup: 'Télécharger Sauvegarde (JSON)',
+            shareBackup: 'Partager la Sauvegarde',
+            sendBackupToGmail: 'Envoyer la Sauvegarde vers Gmail',
+            gmailRecipientLabel: 'Adresse Gmail destinataire (optionnel)',
+            gmailRecipientPlaceholder: 'exemple@gmail.com',
+            gmailBackupReadyHint: 'Télécharge le fichier .json et ouvre Gmail pour le joindre (ou utilise le partage mobile vers Gmail).',
+            restoreBackup: 'Restaurer depuis JSON',
+            lastBackupLabel: 'Dernière sauvegarde :',
+            neverBackedUp: 'Aucune sauvegarde effectuée',
+            backupSuccess: 'Sauvegarde créée avec succès',
+            restoreConfirmTitle: 'Restaurer les Données',
+            restoreConfirmDesc: 'Les données actuelles seront remplacées par celles du fichier. Continuer ?',
+            restoreSuccess: 'Données restaurées avec succès',
+            restoreInvalidError: 'Fichier de sauvegarde invalide',
+            backupReminderBannerTitle: 'Rappel de Sauvegarde (12h)',
+            backupReminderBannerDesc: 'Plus de 12 heures se sont écoulées depuis votre dernière sauvegarde.',
+            backupNowBtn: 'Sauvegarder',
+            snoozeReminderBtn: 'Plus tard',
+            settingsSaved: 'Paramètres enregistrés',
+
+            waStatementTitle: 'Relevé de Compte',
+            waCustomerLabel: 'Client',
+            waStatusLabel: 'Statut',
+            waBalanceLabel: 'Solde Restant',
+            waRecentOps: 'Dernières Opérations',
+
+            justNow: 'À l’instant',
+            minutesAgo: 'Il y a {n} min',
+            hoursAgo: 'Il y a {n} h',
+            daysAgo: 'Il y a {n} j',
+            monthsAgo: 'Il y a {n} mois',
+
+            pwaInstallSection: 'Installer l’application (PWA)',
+            pwaInstallTitle: 'Installer sur l’écran d’accueil',
+            pwaInstallDesc: 'Installez l’application sur Android pour fonctionner hors ligne tout en gardant vos données localement sur l’appareil.',
+            pwaInstallBtn: 'Installer l’application',
+            pwaInstalledBadge: 'Installée en mode autonome',
+            pwaAndroidHint: 'Ouvrez le menu Chrome (⋮) puis sélectionnez « Installer l’application ».',
+            pwaIOSHint: 'Dans Safari, appuyez sur Partager puis « Sur l’écran d’accueil ».',
+            offlineBannerText: 'Mode hors ligne — Vos données restent enregistrées localement',
+            contactsBlockedHint: 'Accès aux contacts bloqué dans ce contexte. Importez un fichier .vcf ou saisissez le numéro.',
+            choosePhoneNumberLabel: 'Choisir un numéro :',
+          },
+          tr: {
+            appName: 'Hesap Defteri',
+            designedBy: 'Tasarım: Firas Al-Mahmoud',
+            settings: 'Ayarlar',
+            back: 'Geri',
+            save: 'Kaydet',
+            cancel: 'İptal',
+            confirm: 'Onayla',
+            delete: 'Sil',
+            edit: 'Düzenle',
+            close: 'Kapat',
+
+            netBalance: 'Net Kalan Bakiye',
+            netInYourFavor: 'Net alacağınız',
+            netYouOwe: 'Net borcunuz',
+            netSettled: 'Hesaplar dengede',
+            totalGiven: 'Toplam Verilen',
+            totalTaken: 'Toplam Alınan',
+
+            searchPlaceholder: 'Müşteri adı veya telefon ara...',
+            filtersTitle: 'Filtreler ve Sıralama',
+            resetFilters: 'Sıfırla',
+            accountTypeLabel: 'Hesap Türü',
+            filterAll: 'Tümü',
+            filterOwesMe: 'Alacaklısın',
+            filterIOwe: 'Borçlusun',
+            timeRangeLabel: 'Zaman ve Sıralama',
+            sortNewest: 'En Yeni',
+            sortOldest: 'En Eski',
+            last24Hours: 'Son 24 Saat',
+            lastWeek: 'Son 1 Hafta',
+            lastMonth: 'Son 1 Ay',
+            overdueLabel: 'Ödemesi Gecikenler',
+            overdueHint: '7 günden uzun süredir borcu bulunan müşteriler',
+
+            customersTitle: 'Müşteriler',
+            customersCount: 'müşteri',
+            addCustomerFab: '+ Müşteri Ekle 👤',
+            noCustomersTitle: 'Defteriniz henüz boş',
+            noCustomersDesc: 'Borç ve ödemeleri kolayca takip etmek için ilk müşterinizi ekleyin.',
+            noResultsTitle: 'Eşleşen müşteri yok',
+            noResultsDesc: 'Arama kelimenizi değiştirmeyi veya filtreleri sıfırlamayı deneyin.',
+            givenTag: 'Verilen',
+            takenTag: 'Alınan',
+            settledTag: 'Sıfırlandı',
+            owesYouShort: 'Alacaklısın',
+            youOweShort: 'Borçlusun',
+            noTransactionsYet: 'Henüz işlem yok',
+            overdueBadge: 'Gecikmiş',
+
+            addCustomerTitle: 'Yeni Müşteri Ekle',
+            editCustomerTitle: 'Müşteriyi Düzenle',
+            customerNameLabel: 'Müşteri Adı',
+            customerNamePlaceholder: 'Örn: Ahmet Yılmaz',
+            phoneLabel: 'Telefon Numarası',
+            phonePlaceholder: 'Örn: 5312345678',
+            pickFromContacts: 'Rehberden Seç',
+            contactsUnsupportedHint: 'Bu tarayıcı doğrudan rehberi desteklemiyor; .vcf dosyası yükleyebilir veya numarayı yazabilirsiniz.',
+            contactNoPhoneError: 'Seçilen kişide telefon numarası bulunamadı',
+            countryCodeHint: 'Varsayılan ülke kodu:',
+            nameRequiredError: 'Lütfen müşteri adını girin',
+            customerAdded: 'Müşteri başarıyla eklendi',
+            customerUpdated: 'Müşteri bilgileri güncellendi',
+            customerDeleted: 'Müşteri ve işlemleri silindi',
+
+            currentBalance: 'Güncel Bakiye',
+            owesYouStatus: 'Alacaklısın',
+            youOweStatus: 'Borçlusun',
+            settledStatus: 'Kapalı',
+            sendWhatsAppStatement: 'WhatsApp ile Ekstre Gönder',
+            sendWhatsAppReminder: 'Ödeme Hatırlatması Gönder',
+            copyStatement: 'Ekstreyi Kopyala',
+            statementCopied: 'Ekstre panoya kopyalandı',
+            noPhoneWarning: 'Doğrudan WhatsApp için telefon numarası ekleyin',
+            giveButton: 'Verdim (Alacaklısın)',
+            takeButton: 'Aldım (Borçlusun)',
+            transactionsHistory: 'İşlem Geçmişi',
+            longPressHint: 'Silmek için herhangi bir işleme uzun basın',
+            emptyTransactions: 'Bu müşteri için henüz kayıtlı işlem yok',
+            deleteTransactionTitle: 'İşlemi Sil',
+            deleteTransactionConfirm: 'Bu işlemi silmek istiyor musunuz? Bakiye anında güncellenecektir.',
+            deleteCustomerTitle: 'Müşteriyi Sil',
+            deleteCustomerConfirm: 'Bu müşteri ve tüm işlemleri kalıcı olarak silinsin mi?',
+            transactionDeleted: 'İşlem silindi ve bakiye güncellendi',
+
+            calcTitleGiven: 'Kayıt: Verdim (Alacaklısın)',
+            calcTitleTaken: 'Kayıt: Aldım (Borçlusun)',
+            noteLabel: 'Notlar',
+            notePlaceholder: 'Not yazın veya son işlemi silmek için "حذف" / "sil" yazın...',
+            dateTimeLabel: 'Tarih ve Saat',
+            smartUndoDetected: 'Akıllı Geri Alma: Son işlemi hemen sil',
+            smartUndoButton: 'Son İşlemi Şimdi Sil',
+            smartUndoDone: 'Son işlem geri alındı ve silindi',
+            smartUndoEmpty: 'Bu müşteri için silinecek önceki işlem yok',
+            confirmTransaction: 'Onayla ve İşlemi Ekle',
+            invalidAmountError: 'Lütfen sıfırdan büyük geçerli bir tutar girin',
+            transactionAdded: 'İşlem kaydedildi ve bakiye güncellendi',
+
+            settingsTitle: 'Uygulama Ayarları',
+            storeLogoSection: 'Mağaza Logosu',
+            uploadLogo: 'Logo Yükle',
+            changeLogo: 'Logoyu Değiştir',
+            removeLogo: 'Logoyu Kaldır',
+            languageSection: 'Uygulama Dili',
+            storeNameSection: 'Mağaza Adı',
+            storeNamePlaceholder: 'Örn: Bereket Ticaret',
+            countryCodeSection: 'Varsayılan Ülke Kodu',
+            countryCodeCustom: 'Özel kod (örn: +90)',
+            reminderTemplateSection: 'Gecikme Hatırlatma Şablonu',
+            reminderTemplateHelp: 'Müşteri adı ve bakiye için otomatik değişkenleri kullanın:',
+            insertVarName: '{name} ekle',
+            insertVarBalance: '{balance} ekle',
+            templatePreview: 'Mesaj Önizleme:',
+            appearanceSection: 'Görünüm',
+            darkModeLabel: 'Karanlık Mod (Dark Mode)',
+            darkModeDesc: 'Açık ve koyu tema arasında geçiş yapın',
+            backupSection: 'Yedekleme ve Geri Yükleme',
+            exportBackup: 'Yedeği İndir (JSON)',
+            shareBackup: 'Yedek Dosyasını Paylaş',
+            sendBackupToGmail: 'Yedeği Gmail’e Gönder',
+            gmailRecipientLabel: 'Alıcı Gmail Adresi (isteğe bağlı)',
+            gmailRecipientPlaceholder: 'ornek@gmail.com',
+            gmailBackupReadyHint: 'Yedek .json dosyasını indirir ve eklemek için Gmail oluşturma ekranını (veya mobilde Gmail uygulamasını) açar.',
+            restoreBackup: 'JSON Dosyasından Geri Yükle',
+            lastBackupLabel: 'Son yedekleme:',
+            neverBackedUp: 'Henüz yedek alınmadı',
+            backupSuccess: 'Yedekleme başarıyla kaydedildi',
+            restoreConfirmTitle: 'Yedeği Geri Yükle',
+            restoreConfirmDesc: 'Mevcut tüm veriler yedek dosyasındaki verilerle değiştirilecek. Devam edilsin mi?',
+            restoreSuccess: 'Veriler başarıyla geri yüklendi',
+            restoreInvalidError: 'Seçilen dosya geçersiz veya bozuk',
+            backupReminderBannerTitle: '12 Saatlik Yedekleme Hatırlatıcısı',
+            backupReminderBannerDesc: 'Son yedeklemenizin üzerinden 12 saatten fazla zaman geçti.',
+            backupNowBtn: 'Şimdi Yedekle',
+            snoozeReminderBtn: 'Sonra',
+            settingsSaved: 'Ayarlar kaydedildi',
+
+            waStatementTitle: 'Hesap Ekstresi',
+            waCustomerLabel: 'Müşteri',
+            waStatusLabel: 'Hesap Durumu',
+            waBalanceLabel: 'Kalan Bakiye',
+            waRecentOps: 'Son İşlemler',
+
+            justNow: 'Şimdi',
+            minutesAgo: '{n} dk önce',
+            hoursAgo: '{n} sa önce',
+            daysAgo: '{n} gün önce',
+            monthsAgo: '{n} ay önce',
+
+            pwaInstallSection: 'Uygulamayı Yükle (PWA)',
+            pwaInstallTitle: 'Ana Ekrana Yükle',
+            pwaInstallDesc: 'Tüm veriler cihazınızda yerel olarak saklanırken Android’de çevrimdışı çalışan bağımsız uygulama olarak yükleyin.',
+            pwaInstallBtn: 'Uygulamayı Yükle',
+            pwaInstalledBadge: 'Uygulama yüklü ve bağımsız modda çalışıyor',
+            pwaAndroidHint: 'Chrome menüsünü (⋮) açın ve "Uygulamayı yükle" veya "Ana ekrana ekle" seçeneğine dokunun.',
+            pwaIOSHint: 'Safari’de Paylaş’a dokunup "Ana Ekrana Ekle"yi seçin.',
+            offlineBannerText: 'Çevrimdışı Mod — Verileriniz cihazınızda güvenle saklanıyor',
+            contactsBlockedHint: 'Bu bağlamda rehbere erişilemedi. Bir .vcf dosyası içe aktarabilir veya numarayı yazabilirsiniz.',
+            choosePhoneNumberLabel: 'Telefon numarası seçin:',
+          },
+        };
+
+        // ============================================================
+        // 3. STATE MANAGEMENT
+        // ============================================================
+        function loadJson(key, fallback) {
+          try {
+            const raw = localStorage.getItem(key);
+            if (!raw) return fallback;
+            return JSON.parse(raw);
+          } catch (_) {
+            return fallback;
+          }
+        }
+
+        const defaultSettings = {
+          language: 'ar',
+          darkMode: false,
+          storeName: 'دفتر الحسابات',
+          storeLogo: null,
+          defaultCountryCode: '+90',
+          reminderTemplate: DEFAULT_REMINDER_TEMPLATES.ar,
+          overdueDays: 7,
+          lastBackupAt: null,
+          reminderDismissedUntil: null,
+          backupEmail: '',
+        };
+
+        const state = {
+          customers: Array.isArray(loadJson(STORAGE_KEYS.CUSTOMERS, [])) ? loadJson(STORAGE_KEYS.CUSTOMERS, []) : [],
+          transactions: Array.isArray(loadJson(STORAGE_KEYS.TRANSACTIONS, [])) ? loadJson(STORAGE_KEYS.TRANSACTIONS, []) : [],
+          settings: Object.assign({}, defaultSettings, loadJson(STORAGE_KEYS.SETTINGS, {})),
+          activeView: 'home', // 'home' | 'profile' | 'calculator' | 'settings'
+          selectedCustomerId: null,
+          searchQuery: '',
+          filtersOpen: false,
+          filters: {
+            accountType: 'all',
+            timeRange: 'newest',
+            overdueOnly: false,
+          },
+          calc: {
+            type: 'given',
+            expression: '',
+            note: '',
+            dateTime: '',
+            error: '',
+          },
+          toastTimer: null,
+          nowTick: Date.now(),
+        };
+
+        const pwa = {
+          deferredPrompt: null,
+          isInstalled:
+            window.matchMedia('(display-mode: standalone)').matches ||
+            window.navigator.standalone === true,
+          isIOS: /iphone|ipad|ipod/i.test(window.navigator.userAgent || ''),
+          installDismissed: false,
+          isOnline: typeof navigator !== 'undefined' ? navigator.onLine : true,
+          supportedContactProps: ['name', 'tel'],
+        };
+
+        if (navigator.contacts && typeof navigator.contacts.getProperties === 'function') {
+          navigator.contacts.getProperties().then((props) => {
+            if (Array.isArray(props) && props.length > 0) {
+              const wanted = ['name', 'tel'].filter((p) => props.includes(p));
+              if (wanted.length > 0) pwa.supportedContactProps = wanted;
+            }
+          }).catch(() => {});
+        }
+
+        async function triggerPWAInstall() {
+          if (!pwa.deferredPrompt) return false;
+          try {
+            await pwa.deferredPrompt.prompt();
+            const choice = await pwa.deferredPrompt.userChoice;
+            if (choice && choice.outcome === 'accepted') {
+              pwa.isInstalled = true;
+              pwa.deferredPrompt = null;
+              render();
+              return true;
+            }
+          } catch (_) {}
+          return false;
+        }
+
+        function persistCustomers() {
+          try { localStorage.setItem(STORAGE_KEYS.CUSTOMERS, JSON.stringify(state.customers)); } catch (_) {}
+        }
+        function persistTransactions() {
+          try { localStorage.setItem(STORAGE_KEYS.TRANSACTIONS, JSON.stringify(state.transactions)); } catch (_) {}
+        }
+        function persistSettings() {
+          try { localStorage.setItem(STORAGE_KEYS.SETTINGS, JSON.stringify(state.settings)); } catch (_) {}
+        }
+
+        // ============================================================
+        // 4. UTILITIES (FORMATTING, MATH, VCARD, WHATSAPP, GMAIL)
+        // ============================================================
+        function t() {
+          return TRANSLATIONS[state.settings.language] || TRANSLATIONS.ar;
+        }
+
+        function isRtl() {
+          return state.settings.language === 'ar';
+        }
+
+        function escapeHtml(str) {
+          return String(str)
+            .replace(/&/g, '&amp;')
+            .replace(/</g, '&lt;')
+            .replace(/>/g, '&gt;')
+            .replace(/"/g, '&quot;')
+            .replace(/'/g, '&#39;');
+        }
+
+        function generateId() {
+          if (window.crypto && typeof window.crypto.randomUUID === 'function') {
+            return window.crypto.randomUUID();
+          }
+          return Date.now() + '-' + Math.random().toString(36).slice(2, 9);
+        }
+
+        function formatCurrency(amount) {
+          const absVal = Math.abs(amount);
+          const lang = state.settings.language;
+          const locale = lang === 'tr' ? 'tr-TR' : lang === 'fr' ? 'fr-FR' : 'en-US';
+          const hasDecimals = Math.round(absVal * 100) % 100 !== 0;
+          return new Intl.NumberFormat(locale, {
+            minimumFractionDigits: hasDecimals ? 2 : 0,
+            maximumFractionDigits: 2,
+          }).format(absVal);
+        }
+
+        function formatPhoneWithCountryCode(rawPhone, defaultCode) {
+          const trimmed = String(rawPhone || '').trim();
+          if (!trimmed) return '';
+          let cleaned = trimmed.replace(/[^\d+]/g, '');
+          if (!cleaned) return '';
+          const normDef = defaultCode.startsWith('+') ? defaultCode : '+' + defaultCode.replace(/\D/g, '');
+          if (cleaned.startsWith('00')) cleaned = '+' + cleaned.slice(2);
+          if (!cleaned.startsWith('+')) {
+            cleaned = normDef + cleaned.replace(/^0+/, '');
+          }
+          const digits = cleaned.slice(1);
+          if (digits.length <= 4) return '+' + digits;
+          const ccLen = digits.startsWith('1') ? 1 : /^(90|20|33|49|44)/.test(digits) ? 2 : 3;
+          const cc = digits.slice(0, ccLen);
+          const rest = digits.slice(ccLen);
+          const groups = (rest.match(/.{1,3}/g) || [rest]).join(' ');
+          return ('+' + cc + ' ' + groups).trim();
+        }
+
+        function formatRelativeTime(timestamp) {
+          const tr = t();
+          if (!timestamp) return tr.noTransactionsYet;
+          const diffMs = Math.max(0, state.nowTick - timestamp);
+          const mins = Math.floor(diffMs / 60000);
+          if (mins < 1) return tr.justNow;
+          if (mins < 60) return tr.minutesAgo.replace('{n}', String(mins));
+          const hours = Math.floor(mins / 60);
+          if (hours < 24) return tr.hoursAgo.replace('{n}', String(hours));
+          const days = Math.floor(hours / 24);
+          if (days < 30) return tr.daysAgo.replace('{n}', String(days));
+          return tr.monthsAgo.replace('{n}', String(Math.floor(days / 30)));
+        }
+
+        function formatDateTimeDisplay(isoOrMs) {
+          const d = typeof isoOrMs === 'number' ? new Date(isoOrMs) : new Date(isoOrMs);
+          if (isNaN(d.getTime())) return '';
+          const lang = state.settings.language;
+          const locale = lang === 'ar' ? 'ar-SA' : lang === 'tr' ? 'tr-TR' : lang === 'fr' ? 'fr-FR' : 'en-US';
+          return new Intl.DateTimeFormat(locale, {
+            year: 'numeric',
+            month: 'short',
+            day: 'numeric',
+            hour: '2-digit',
+            minute: '2-digit',
+          }).format(d);
+        }
+
+        function toLocalDateTimeInput(date) {
+          const d = date || new Date();
+          const pad = (n) => String(n).padStart(2, '0');
+          return d.getFullYear() + '-' + pad(d.getMonth() + 1) + '-' + pad(d.getDate()) + 'T' + pad(d.getHours()) + ':' + pad(d.getMinutes());
+        }
+
+        function isUndoKeyword(note) {
+          const norm = String(note || '').trim().toLowerCase();
+          return norm === 'حذف' || norm === 'delete' || norm === 'supprimer' || norm === 'sil';
+        }
+
+        function evaluateMathExpression(expr) {
+          const sanitized = String(expr || '')
+            .replace(/×/g, '*')
+            .replace(/÷/g, '/')
+            .replace(/−/g, '-')
+            .replace(/\s+/g, '');
+          if (!sanitized || !/^[0-9+\-*/.()]+$/.test(sanitized)) return null;
+          const cleaned = sanitized.replace(/[+\-*/.]+$/, '');
+          if (!cleaned) return null;
+
+          let pos = 0;
+          function parseExpr() {
+            let val = parseTerm();
+            while (pos < cleaned.length && (cleaned[pos] === '+' || cleaned[pos] === '-')) {
+              const op = cleaned[pos++];
+              const r = parseTerm();
+              val = op === '+' ? val + r : val - r;
+            }
+            return val;
+          }
+          function parseTerm() {
+            let val = parseFactor();
+            while (pos < cleaned.length && (cleaned[pos] === '*' || cleaned[pos] === '/')) {
+              const op = cleaned[pos++];
+              const r = parseFactor();
+              if (op === '/') {
+                if (r === 0) return NaN;
+                val /= r;
+              } else {
+                val *= r;
+              }
+            }
+            return val;
+          }
+          function parseFactor() {
+            if (cleaned[pos] === '+') { pos++; return parseFactor(); }
+            if (cleaned[pos] === '-') { pos++; return -parseFactor(); }
+            const start = pos;
+            while (pos < cleaned.length && /[0-9.]/.test(cleaned[pos])) pos++;
+            if (start === pos) return NaN;
+            return parseFloat(cleaned.slice(start, pos));
+          }
+
+          const res = parseExpr();
+          if (pos !== cleaned.length || !isFinite(res)) return null;
+          return Math.round(res * 100) / 100;
+        }
+
+        function parseVCardContact(vcfText) {
+          const lines = String(vcfText || '').split(/\r?\n/);
+          let name = '';
+          let phone = '';
+          for (let i = 0; i < lines.length; i++) {
+            const line = lines[i].trim();
+            if (!name && /^FN[;:]/i.test(line)) {
+              const idx = line.indexOf(':');
+              if (idx !== -1) name = line.slice(idx + 1).trim();
+            } else if (!phone && /^TEL[;:]/i.test(line)) {
+              const idx = line.indexOf(':');
+              if (idx !== -1) phone = line.slice(idx + 1).trim();
+            }
+            if (name && phone) break;
+          }
+          if (!name && !phone) return null;
+          return { name: name, phone: phone };
+        }
+
+        function buildWhatsAppHref(phone, message) {
+          const clean = String(phone || '').replace(/[^\d]/g, '');
+          const enc = encodeURIComponent(message);
+          return clean ? 'https://wa.me/' + clean + '?text=' + enc : 'https://wa.me/?text=' + enc;
+        }
+
+        function buildStatementMessage(summary, txs) {
+          const tr = t();
+          const store = state.settings.storeName.trim();
+          const status = summary.balance > 0 ? tr.owesYouStatus : summary.balance < 0 ? tr.youOweStatus : tr.settledStatus;
+          const lines = [];
+          if (store) lines.push('*' + store + '*');
+          lines.push('*' + tr.waStatementTitle + '*');
+          lines.push('━━━━━━━━━━━━━━');
+          lines.push(tr.waCustomerLabel + ': *' + summary.name + '*');
+          lines.push(tr.waStatusLabel + ': ' + status);
+          lines.push(tr.waBalanceLabel + ': *' + formatCurrency(summary.balance) + '*');
+          const recent = txs.slice().sort((a, b) => new Date(b.date) - new Date(a.date)).slice(0, 8);
+          if (recent.length > 0) {
+            lines.push('');
+            lines.push('*' + tr.waRecentOps + ':*');
+            recent.forEach((tx) => {
+              const sign = tx.type === 'given' ? '🔴 +' : '🟢 -';
+              const lbl = tx.type === 'given' ? tr.givenTag : tr.takenTag;
+              const notePart = tx.note ? ' (' + tx.note + ')' : '';
+              lines.push(sign + formatCurrency(tx.amount) + ' [' + lbl + '] · ' + formatDateTimeDisplay(tx.date) + notePart);
+            });
+          }
+          return lines.join('\n');
+        }
+
+        function buildReminderMessage(customerName, balance) {
+          const store = state.settings.storeName.trim();
+          const body = state.settings.reminderTemplate
+            .replace(/\{name\}/g, customerName)
+            .replace(/\{balance\}/g, formatCurrency(Math.abs(balance)));
+          return store ? '*' + store + '*\n' + body : body;
+        }
+
+        function buildGmailComposeHref(to, subject, body) {
+          const q = new URLSearchParams({
+            view: 'cm',
+            fs: '1',
+            to: String(to || '').trim(),
+            su: subject,
+            body: body,
+          });
+          return 'https://mail.google.com/mail/?' + q.toString();
+        }
+
+        function compressLogoImage(file, maxSize) {
+          return new Promise((resolve, reject) => {
+            const reader = new FileReader();
+            reader.onload = () => {
+              const img = new Image();
+              img.onload = () => {
+                const canvas = document.createElement('canvas');
+                const scale = Math.min(1, maxSize / Math.max(img.width, img.height));
+                canvas.width = Math.max(1, Math.round(img.width * scale));
+                canvas.height = Math.max(1, Math.round(img.height * scale));
+                const ctx = canvas.getContext('2d');
+                if (!ctx) { resolve(reader.result); return; }
+                ctx.drawImage(img, 0, 0, canvas.width, canvas.height);
+                resolve(canvas.toDataURL('image/webp', 0.86));
+              };
+              img.onerror = () => reject(new Error('Invalid image'));
+              img.src = reader.result;
+            };
+            reader.onerror = () => reject(new Error('Read error'));
+            reader.readAsDataURL(file);
+          });
+        }
+
+        // ============================================================
+        // 5. DERIVED DATA
+        // ============================================================
+        function computeData() {
+          const txByCust = new Map();
+          let totalGiven = 0;
+          let totalTaken = 0;
+
+          state.transactions.forEach((tx) => {
+            if (tx.type === 'given') totalGiven += tx.amount;
+            else totalTaken += tx.amount;
+            if (!txByCust.has(tx.customerId)) txByCust.set(tx.customerId, []);
+            txByCust.get(tx.customerId).push(tx);
+          });
+
+          const overdueMs = (state.settings.overdueDays || 7) * 86400000;
+          const summaries = state.customers.map((c) => {
+            const list = txByCust.get(c.id) || [];
+            let g = 0, tk = 0, lastAt = 0;
+            list.forEach((tx) => {
+              if (tx.type === 'given') g += tx.amount;
+              else tk += tx.amount;
+              const tm = new Date(tx.date).getTime();
+              if (tm > lastAt) lastAt = tm;
+            });
+            const balance = Math.round((g - tk) * 100) / 100;
+            const isOverdue = balance > 0 && lastAt > 0 && (state.nowTick - lastAt >= overdueMs);
+            return Object.assign({}, c, {
+              totalGiven: Math.round(g * 100) / 100,
+              totalTaken: Math.round(tk * 100) / 100,
+              balance: balance,
+              lastTransactionAt: lastAt,
+              transactionCount: list.length,
+              isOverdue: isOverdue,
+            });
+          });
+
+          return {
+            summaries: summaries,
+            totalGiven: Math.round(totalGiven * 100) / 100,
+            totalTaken: Math.round(totalTaken * 100) / 100,
+            netBalance: Math.round((totalGiven - totalTaken) * 100) / 100,
+          };
+        }
+
+        function filterCustomers(summaries) {
+          const q = state.searchQuery.trim().toLowerCase();
+          const f = state.filters;
+
+          const filtered = summaries.filter((c) => {
+            if (q) {
+              const mName = c.name.toLowerCase().includes(q);
+              const mPhone = (c.phone || '').toLowerCase().includes(q);
+              if (!mName && !mPhone) return false;
+            }
+            if (f.accountType === 'owes_me' && c.balance <= 0) return false;
+            if (f.accountType === 'i_owe' && c.balance >= 0) return false;
+            if (f.overdueOnly && !c.isOverdue) return false;
+
+            const ref = c.lastTransactionAt || c.createdAt;
+            if (f.timeRange === 'last_24h' && state.nowTick - ref > 86400000) return false;
+            if (f.timeRange === 'last_week' && state.nowTick - ref > 7 * 86400000) return false;
+            if (f.timeRange === 'last_month' && state.nowTick - ref > 30 * 86400000) return false;
+            return true;
+          });
+
+          return filtered.sort((a, b) => {
+            const ta = a.lastTransactionAt || a.createdAt;
+            const tb = b.lastTransactionAt || b.createdAt;
+            return f.timeRange === 'oldest' ? ta - tb : tb - ta;
+          });
+        }
+
+        function isBackupReminderDue() {
+          if (state.customers.length === 0 && state.transactions.length === 0) return false;
+          if (state.settings.reminderDismissedUntil && state.nowTick < state.settings.reminderDismissedUntil) return false;
+          let oldest = state.nowTick;
+          state.customers.forEach((c) => { if (c.createdAt < oldest) oldest = c.createdAt; });
+          const base = state.settings.lastBackupAt || oldest;
+          return (state.nowTick - base) >= TWELVE_HOURS_MS;
+        }
+
+        // ============================================================
+        // 6. SVG ICONS
+        // ============================================================
+        const ICONS = {
+          settings: '<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12.22 2h-.44a2 2 0 0 0-2 2v.18a2 2 0 0 1-1 1.73l-.43.25a2 2 0 0 1-2 0l-.15-.08a2 2 0 0 0-2.73.73l-.22.38a2 2 0 0 0 .73 2.73l.15.1a2 2 0 0 1 1 1.72v.51a2 2 0 0 1-1 1.74l-.15.09a2 2 0 0 0-.73 2.73l.22.38a2 2 0 0 0 2.73.73l.15-.08a2 2 0 0 1 2 0l.43.25a2 2 0 0 1 1 1.73V20a2 2 0 0 0 2 2h.44a2 2 0 0 0 2-2v-.18a2 2 0 0 1 1-1.73l.43-.25a2 2 0 0 1 2 0l.15.08a2 2 0 0 0 2.73-.73l.22-.39a2 2 0 0 0-.73-2.73l-.15-.08a2 2 0 0 1-1-1.74v-.5a2 2 0 0 1 1-1.74l.15-.09a2 2 0 0 0 .73-2.73l-.22-.38a2 2 0 0 0-2.73-.73l-.15.08a2 2 0 0 1-2 0l-.43-.25a2 2 0 0 1-1-1.73V4a2 2 0 0 0-2-2z"/><circle cx="12" cy="12" r="3"/></svg>',
+          book: '<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"/><path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"/></svg>',
+          arrowRight: '<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg>',
+          arrowLeft: '<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m12 19-7-7 7-7"/><path d="M19 12H5"/></svg>',
+          arrowUpRight: '<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M7 7h10v10"/><path d="M7 17 17 7"/></svg>',
+          arrowDownLeft: '<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M17 7 7 17"/><path d="M17 17H7V7"/></svg>',
+          search: '<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/></svg>',
+          close: '<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 6 6 18"/><path d="m6 6 12 12"/></svg>',
+          users: '<svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M22 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>',
+          edit: '<svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17 3a2.85 2.83 0 1 1 4 4L7.5 20.5 2 22l1.5-5.5Z"/></svg>',
+          trash: '<svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 6h18"/><path d="M19 6v14c0 1-1 2-2 2H7c-1 0-2-1-2-2V6"/><path d="M8 6V4c0-1 1-2 2-2h4c1 0 2 1 2 2v2"/></svg>',
+          whatsapp: '<svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M7.9 20A9 9 0 1 0 4 16.1L2 22Z"/></svg>',
+          copy: '<svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect width="14" height="14" x="8" y="8" rx="2" ry="2"/><path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2"/></svg>',
+          bell: '<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 8a6 6 0 0 1 12 0c0 7 3 9 3 9H3s3-2 3-9"/><path d="M10.3 21a1.94 1.94 0 0 0 3.4 0"/></svg>',
+          phone: '<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72c.12.96.36 1.9.7 2.81a2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45c.91.34 1.85.58 2.81.7A2 2 0 0 1 22 16.92z"/></svg>',
+          contacts: '<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17 18a2 2 0 0 0-2-2H9a2 2 0 0 0-2 2"/><rect width="18" height="18" x="3" y="4" rx="2"/><circle cx="12" cy="10" r="2"/><line x1="8" x2="8" y1="2" y2="4"/><line x1="16" x2="16" y1="2" y2="4"/></svg>',
+          mail: '<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect width="20" height="16" x="2" y="4" rx="2"/><path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"/></svg>',
+          download: '<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" x2="12" y1="15" y2="3"/></svg>',
+          share: '<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="18" cy="5" r="3"/><circle cx="6" cy="12" r="3"/><circle cx="18" cy="19" r="3"/><line x1="8.59" x2="15.42" y1="13.51" y2="17.49"/><line x1="15.41" x2="8.59" y1="6.51" y2="10.49"/></svg>',
+          upload: '<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" x2="12" y1="3" y2="15"/></svg>',
+          backspace: '<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 5a2 2 0 0 0-1.344.519l-6.328 5.74a1 1 0 0 0 0 1.481l6.328 5.741A2 2 0 0 0 10 19h10a2 2 0 0 0 2-2V7a2 2 0 0 0-2-2z"/><path d="m12 9 6 6"/><path d="m18 9-6 6"/></svg>',
+          check: '<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg>',
+          undo: '<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 14 4 9l5-5"/><path d="M4 9h10.5a5.5 5.5 0 0 1 5.5 5.5a5.5 5.5 0 0 1-5.5 5.5H11"/></svg>',
+          alert: '<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m21.73 18-8-14a2 2 0 0 0-3.48 0l-8 14A2 2 0 0 0 4 21h16a2 2 0 0 0 1.73-3"/><path d="M12 9v4"/><path d="M12 17h.01"/></svg>',
+        };
+
+        // ============================================================
+        // 7. TOAST & DIALOGS
+        // ============================================================
+        function showToast(msg) {
+          const root = document.getElementById('toast-root');
+          root.innerHTML = '<div class="toast" role="status" aria-live="polite">' + escapeHtml(msg) + '</div>';
+          if (state.toastTimer) clearTimeout(state.toastTimer);
+          state.toastTimer = setTimeout(() => { root.innerHTML = ''; }, 3200);
+        }
+
+        function closeModal() {
+          document.getElementById('modal-root').innerHTML = '';
+        }
+
+        function openConfirmDialog(opts) {
+          const tr = t();
+          const modalRoot = document.getElementById('modal-root');
+          modalRoot.innerHTML =
+            '<div class="modal-backdrop center" id="confirm-backdrop">' +
+              '<div class="modal-dialog" role="dialog" aria-modal="true">' +
+                '<div style="display:flex;align-items:flex-start;gap:12px;">' +
+                  '<div style="width:40px;height:40px;border-radius:14px;display:flex;align-items:center;justify-content:center;flex-shrink:0;' +
+                    (opts.destructive !== false ? 'background:var(--tint-given-bg);color:var(--accent-rose);' : 'background:var(--tint-taken-bg);color:var(--accent-emerald);') + '">' +
+                    ICONS.alert +
+                  '</div>' +
+                  '<div style="min-width:0;">' +
+                    '<h3 style="margin:0;font-size:16px;font-weight:800;">' + escapeHtml(opts.title) + '</h3>' +
+                    '<p style="margin:6px 0 0;font-size:13px;color:var(--text-secondary);line-height:1.55;">' + escapeHtml(opts.description) + '</p>' +
+                  '</div>' +
+                '</div>' +
+                '<div style="display:flex;justify-content:flex-end;gap:10px;padding-top:6px;">' +
+                  '<button type="button" class="btn btn-sm btn-secondary" id="confirm-cancel">' + escapeHtml(tr.cancel) + '</button>' +
+                  '<button type="button" class="btn btn-sm ' + (opts.destructive !== false ? 'btn-rose' : 'btn-emerald') + '" id="confirm-ok">' + escapeHtml(opts.confirmLabel) + '</button>' +
+                '</div>' +
+              '</div>' +
+            '</div>';
+
+          document.getElementById('confirm-backdrop').addEventListener('click', (e) => {
+            if (e.target.id === 'confirm-backdrop') closeModal();
+          });
+          document.getElementById('confirm-cancel').addEventListener('click', closeModal);
+          document.getElementById('confirm-ok').addEventListener('click', () => {
+            closeModal();
+            opts.onConfirm();
+          });
+        }
+
+        function openCustomerModal(editingCustomer) {
+          const tr = t();
+          const modalRoot = document.getElementById('modal-root');
+          let currentName = editingCustomer ? editingCustomer.name : '';
+          let currentPhone = editingCustomer ? editingCustomer.phone : '';
+
+          modalRoot.innerHTML =
+            '<div class="modal-backdrop" id="cust-modal-backdrop">' +
+              '<div class="modal-sheet" role="dialog" aria-modal="true">' +
+                '<div class="grab-bar"></div>' +
+                '<div style="display:flex;align-items:center;justify-content:space-between;">' +
+                  '<h2 style="margin:0;font-size:18px;font-weight:800;">' + escapeHtml(editingCustomer ? tr.editCustomerTitle : tr.addCustomerTitle) + '</h2>' +
+                  '<button type="button" class="icon-btn" id="cust-modal-close" aria-label="' + escapeHtml(tr.close) + '">' + ICONS.close + '</button>' +
+                '</div>' +
+                '<form id="cust-form" style="display:flex;flex-direction:column;gap:14px;">' +
+                  '<div>' +
+                    '<label for="cust-name" class="filter-label">' + escapeHtml(tr.customerNameLabel) + '</label>' +
+                    '<input id="cust-name" type="text" class="text-input" value="' + escapeHtml(currentName) + '" placeholder="' + escapeHtml(tr.customerNamePlaceholder) + '" />' +
+                    '<p id="cust-name-err" class="hidden" style="margin:6px 0 0;font-size:12px;font-weight:700;color:var(--accent-rose);"></p>' +
+                  '</div>' +
+                  '<div>' +
+                    '<div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:6px;">' +
+                      '<label for="cust-phone" class="filter-label" style="margin:0;">' + escapeHtml(tr.phoneLabel) + '</label>' +
+                      '<span class="font-num" style="font-size:11px;color:var(--text-muted);" dir="ltr">' + escapeHtml(state.settings.defaultCountryCode) + '</span>' +
+                    '</div>' +
+                    '<input id="cust-phone" type="tel" dir="ltr" class="text-input font-num" value="' + escapeHtml(currentPhone) + '" placeholder="' + escapeHtml(tr.phonePlaceholder) + '" />' +
+                    '<div style="display:flex;gap:8px;margin-top:8px;">' +
+                      '<button type="button" id="pick-contacts-btn" class="btn btn-sm btn-secondary" style="flex:1;">' + ICONS.contacts + '<span>' + escapeHtml(tr.pickFromContacts) + '</span></button>' +
+                      '<input type="file" id="vcf-file-input" accept=".vcf,text/vcard,text/x-vcard" class="hidden" />' +
+                      '<button type="button" id="pick-vcf-btn" class="btn btn-sm btn-outline">.vcf</button>' +
+                    '</div>' +
+                    '<p id="cust-contact-hint" class="hidden" style="margin:6px 0 0;font-size:11px;color:var(--tint-amber-text);line-height:1.5;"></p>' +
+                    '<div id="cust-multi-phones" class="hidden" style="margin-top:8px;display:flex;flex-direction:column;gap:6px;"></div>' +
+                    '<p id="cust-phone-preview" class="hidden" style="margin:6px 0 0;font-size:12px;color:var(--text-muted);"></p>' +
+                  '</div>' +
+                  '<div style="display:flex;gap:10px;padding-top:6px;">' +
+                    '<button type="button" class="btn btn-secondary" id="cust-cancel" style="flex:1;">' + escapeHtml(tr.cancel) + '</button>' +
+                    '<button type="submit" class="btn btn-primary" style="flex:2;">' + escapeHtml(tr.save) + '</button>' +
+                  '</div>' +
+                '</form>' +
+              '</div>' +
+            '</div>';
+
+          const nameInput = document.getElementById('cust-name');
+          const phoneInput = document.getElementById('cust-phone');
+          const errEl = document.getElementById('cust-name-err');
+          const hintEl = document.getElementById('cust-contact-hint');
+          const multiPhonesEl = document.getElementById('cust-multi-phones');
+          const previewEl = document.getElementById('cust-phone-preview');
+          const vcfInput = document.getElementById('vcf-file-input');
+
+          function refreshPreview() {
+            const val = phoneInput.value.trim();
+            if (!val) { previewEl.classList.add('hidden'); return; }
+            const formatted = formatPhoneWithCountryCode(val, state.settings.defaultCountryCode);
+            previewEl.innerHTML = escapeHtml(tr.countryCodeHint) + ' <strong class="font-num" dir="ltr">' + escapeHtml(formatted) + '</strong>';
+            previewEl.classList.remove('hidden');
+          }
+          refreshPreview();
+          setTimeout(() => nameInput.focus(), 30);
+
+          document.getElementById('cust-modal-backdrop').addEventListener('click', (e) => {
+            if (e.target.id === 'cust-modal-backdrop') closeModal();
+          });
+          document.getElementById('cust-modal-close').addEventListener('click', closeModal);
+          document.getElementById('cust-cancel').addEventListener('click', closeModal);
+
+          phoneInput.addEventListener('input', refreshPreview);
+          phoneInput.addEventListener('blur', () => {
+            if (phoneInput.value.trim()) {
+              phoneInput.value = formatPhoneWithCountryCode(phoneInput.value, state.settings.defaultCountryCode);
+              refreshPreview();
+            }
+          });
+
+          function applyPicked(picked) {
+            multiPhonesEl.classList.add('hidden');
+            multiPhonesEl.innerHTML = '';
+            const phones = Array.isArray(picked && picked.phones)
+              ? picked.phones.filter((p) => String(p || '').trim())
+              : (picked && picked.phone && picked.phone.trim() ? [picked.phone.trim()] : []);
+
+            if (phones.length === 0) {
+              hintEl.textContent = tr.contactNoPhoneError;
+              hintEl.classList.remove('hidden');
+              return;
+            }
+            if (!nameInput.value.trim() && picked && picked.name) {
+              nameInput.value = picked.name;
+            }
+            phoneInput.value = formatPhoneWithCountryCode(phones[0], state.settings.defaultCountryCode);
+            hintEl.classList.add('hidden');
+            refreshPreview();
+
+            if (phones.length > 1) {
+              multiPhonesEl.innerHTML =
+                '<span class="filter-label" style="margin:0;">' + escapeHtml(tr.choosePhoneNumberLabel) + '</span>' +
+                '<div class="chip-wrap" dir="ltr">' +
+                  phones.map((ph) => '<button type="button" class="chip-btn font-num" data-picked-tel="' + escapeHtml(ph) + '">' + escapeHtml(ph) + '</button>').join('') +
+                '</div>';
+              multiPhonesEl.classList.remove('hidden');
+              multiPhonesEl.querySelectorAll('[data-picked-tel]').forEach((btn) => {
+                btn.addEventListener('click', () => {
+                  phoneInput.value = formatPhoneWithCountryCode(btn.getAttribute('data-picked-tel'), state.settings.defaultCountryCode);
+                  refreshPreview();
+                });
+              });
+            }
+          }
+
+          document.getElementById('pick-contacts-btn').addEventListener('click', () => {
+            hintEl.classList.add('hidden');
+            const hasContactsApi =
+              'contacts' in navigator &&
+              'ContactsManager' in window &&
+              typeof navigator.contacts.select === 'function';
+
+            if (hasContactsApi) {
+              // Call select() synchronously inside user gesture for Chrome Android permission prompt
+              navigator.contacts.select(pwa.supportedContactProps, { multiple: false })
+                .then((res) => {
+                  if (!res || res.length === 0) return;
+                  const c = res[0];
+                  const cName = Array.isArray(c.name) ? (c.name[0] || '') : '';
+                  const cPhones = Array.isArray(c.tel) ? c.tel : [];
+                  applyPicked({ name: cName, phones: cPhones });
+                })
+                .catch((err) => {
+                  if (err && err.name === 'AbortError') return;
+                  hintEl.textContent = err && err.name === 'SecurityError'
+                    ? tr.contactsBlockedHint
+                    : tr.contactsUnsupportedHint;
+                  hintEl.classList.remove('hidden');
+                  vcfInput.click();
+                });
+              return;
+            }
+
+            hintEl.textContent = tr.contactsUnsupportedHint;
+            hintEl.classList.remove('hidden');
+            vcfInput.click();
+          });
+
+          document.getElementById('pick-vcf-btn').addEventListener('click', () => vcfInput.click());
+          vcfInput.addEventListener('change', (e) => {
+            const file = e.target.files && e.target.files[0];
+            if (!file) return;
+            const reader = new FileReader();
+            reader.onload = () => {
+              const parsed = parseVCardContact(String(reader.result || ''));
+              applyPicked(parsed);
+            };
+            reader.readAsText(file);
+            e.target.value = '';
+          });
+
+          document.getElementById('cust-form').addEventListener('submit', (e) => {
+            e.preventDefault();
+            const cleanName = nameInput.value.trim();
+            if (!cleanName) {
+              errEl.textContent = tr.nameRequiredError;
+              errEl.classList.remove('hidden');
+              return;
+            }
+            const cleanPhone = phoneInput.value.trim()
+              ? formatPhoneWithCountryCode(phoneInput.value, state.settings.defaultCountryCode)
+              : '';
+            const now = Date.now();
+            if (editingCustomer) {
+              state.customers = state.customers.map((c) =>
+                c.id === editingCustomer.id ? Object.assign({}, c, { name: cleanName, phone: cleanPhone, updatedAt: now }) : c
+              );
+              showToast(tr.customerUpdated);
+            } else {
+              state.customers.unshift({
+                id: generateId(),
+                name: cleanName,
+                phone: cleanPhone,
+                createdAt: now,
+                updatedAt: now,
+              });
+              showToast(tr.customerAdded);
+            }
+            persistCustomers();
+            closeModal();
+            render();
+          });
+        }
+
+        // ============================================================
+        // 8. BACKUP & RESTORE ACTIONS
+        // ============================================================
+        function createBackupPayload() {
+          return {
+            version: 1,
+            exportedAt: new Date().toISOString(),
+            customers: state.customers,
+            transactions: state.transactions,
+            settings: state.settings,
+          };
+        }
+
+        function exportBackupFile() {
+          const payload = createBackupPayload();
+          const blob = new Blob([JSON.stringify(payload, null, 2)], { type: 'application/json' });
+          const url = URL.createObjectURL(blob);
+          const a = document.createElement('a');
+          a.href = url;
+          a.download = 'daftar-hisabat-backup-' + new Date().toISOString().slice(0, 10) + '.json';
+          document.body.appendChild(a);
+          a.click();
+          document.body.removeChild(a);
+          URL.revokeObjectURL(url);
+          state.settings.lastBackupAt = Date.now();
+          state.settings.reminderDismissedUntil = null;
+          persistSettings();
+          showToast(t().backupSuccess);
+          render();
+        }
+
+        async function shareBackupFile() {
+          const payload = createBackupPayload();
+          const json = JSON.stringify(payload, null, 2);
+          const file = new File([json], 'daftar-hisabat-backup-' + new Date().toISOString().slice(0, 10) + '.json', { type: 'application/json' });
+          if (navigator.canShare && navigator.canShare({ files: [file] })) {
+            try {
+              await navigator.share({ files: [file], title: t().appName });
+              state.settings.lastBackupAt = Date.now();
+              state.settings.reminderDismissedUntil = null;
+              persistSettings();
+              showToast(t().backupSuccess);
+              render();
+              return;
+            } catch (_) {
+              return;
+            }
+          }
+          exportBackupFile();
+        }
+
+        // ============================================================
+        // 9. SYNC DOCUMENT META & THEME
+        // ============================================================
+        function syncDocumentThemeAndLang() {
+          const root = document.documentElement;
+          const tr = t();
+          root.lang = state.settings.language;
+          root.dir = isRtl() ? 'rtl' : 'ltr';
+          if (state.settings.darkMode) root.classList.add('dark');
+          else root.classList.remove('dark');
+          document.title = tr.appName + ' — ' + tr.designedBy;
+          const themeMeta = document.querySelector('meta[name="theme-color"]');
+          if (themeMeta) {
+            themeMeta.setAttribute('content', state.settings.darkMode ? '#020617' : '#0f172a');
+          }
+        }
+
+        // ============================================================
+        // 10. VIEW RENDERERS
+        // ============================================================
+        function renderHomeView(data) {
+          const tr = t();
+          const filtered = filterCustomers(data.summaries);
+          const activeFilterCount =
+            (state.filters.accountType !== 'all' ? 1 : 0) +
+            (state.filters.timeRange !== 'newest' ? 1 : 0) +
+            (state.filters.overdueOnly ? 1 : 0);
+
+          const netColor = data.netBalance > 0 ? 'text-rose' : data.netBalance < 0 ? 'text-emerald' : '';
+          const netPrefix = data.netBalance < 0 ? '-' : data.netBalance > 0 ? '+' : '';
+          const netState = data.netBalance > 0 ? tr.netInYourFavor : data.netBalance < 0 ? tr.netYouOwe : tr.netSettled;
+
+          const logoHtml = state.settings.storeLogo
+            ? '<button type="button" class="logo-btn" id="home-logo-btn" aria-label="' + escapeHtml(state.settings.storeName || tr.appName) + '"><img src="' + state.settings.storeLogo + '" alt="' + escapeHtml(state.settings.storeName) + '" referrerpolicy="no-referrer" /></button>'
+            : '<button type="button" class="logo-btn" id="home-logo-btn" aria-label="' + escapeHtml(tr.storeLogoSection) + '">' + ICONS.book + '</button>';
+
+          const offlineHtml = !pwa.isOnline
+            ? '<div class="offline-strip" role="status"><span>' + escapeHtml(tr.offlineBannerText) + '</span></div>'
+            : '';
+
+          const installBannerHtml = (!pwa.isInstalled && pwa.deferredPrompt && !pwa.installDismissed)
+            ? '<div class="install-banner">' +
+                '<div style="display:flex;align-items:flex-start;justify-content:space-between;gap:8px;">' +
+                  '<div>' +
+                    '<div style="font-size:13px;font-weight:800;">' + escapeHtml(tr.pwaInstallTitle) + '</div>' +
+                    '<div style="font-size:12px;color:var(--text-secondary);margin-top:2px;line-height:1.5;">' + escapeHtml(tr.pwaInstallDesc) + '</div>' +
+                  '</div>' +
+                  '<button type="button" class="icon-btn" id="dismiss-install-btn" style="min-width:34px;min-height:34px;" aria-label="' + escapeHtml(tr.close) + '">' + ICONS.close + '</button>' +
+                '</div>' +
+                '<div style="display:flex;gap:8px;">' +
+                  '<button type="button" class="btn btn-sm btn-emerald" id="home-install-btn">' + ICONS.download + '<span>' + escapeHtml(tr.pwaInstallBtn) + '</span></button>' +
+                '</div>' +
+              '</div>'
+            : '';
+
+          const reminderHtml = isBackupReminderDue()
+            ? '<div class="reminder-banner">' +
+                '<div style="display:flex;align-items:flex-start;justify-content:space-between;gap:8px;">' +
+                  '<div style="display:flex;align-items:flex-start;gap:10px;">' +
+                    '<div style="flex-shrink:0;margin-top:2px;">' + ICONS.alert + '</div>' +
+                    '<div>' +
+                      '<div style="font-size:13px;font-weight:800;">' + escapeHtml(tr.backupReminderBannerTitle) + '</div>' +
+                      '<div style="font-size:12px;margin-top:2px;opacity:0.9;">' + escapeHtml(tr.backupReminderBannerDesc) + '</div>' +
+                    '</div>' +
+                  '</div>' +
+                  '<button type="button" class="icon-btn" id="snooze-close-btn" style="min-width:34px;min-height:34px;" aria-label="' + escapeHtml(tr.close) + '">' + ICONS.close + '</button>' +
+                '</div>' +
+                '<div style="display:flex;gap:8px;">' +
+                  '<button type="button" class="btn btn-sm" id="banner-backup-btn" style="background:var(--accent-amber);color:#fff;">' + escapeHtml(tr.backupNowBtn) + '</button>' +
+                  '<button type="button" class="btn btn-sm" id="banner-snooze-btn" style="background:transparent;color:inherit;">' + escapeHtml(tr.snoozeReminderBtn) + '</button>' +
+                '</div>' +
+              '</div>'
+            : '';
+
+          const filterPanelHtml = state.filtersOpen
+            ? '<div class="filter-panel">' +
+                '<div class="filter-head">' +
+                  '<h2 class="filter-title">' + escapeHtml(tr.filtersTitle) + '</h2>' +
+                  (activeFilterCount > 0 ? '<button type="button" class="btn btn-sm btn-danger-soft" id="reset-filters-btn">' + escapeHtml(tr.resetFilters) + '</button>' : '') +
+                '</div>' +
+                '<div>' +
+                  '<span class="filter-label">' + escapeHtml(tr.accountTypeLabel) + '</span>' +
+                  '<div class="segmented-3">' +
+                    ['all', 'owes_me', 'i_owe'].map((v) => {
+                      const lbl = v === 'all' ? tr.filterAll : v === 'owes_me' ? tr.filterOwesMe : tr.filterIOwe;
+                      return '<button type="button" class="seg-btn ' + (state.filters.accountType === v ? 'active' : '') + '" data-acct-filter="' + v + '">' + escapeHtml(lbl) + '</button>';
+                    }).join('') +
+                  '</div>' +
+                '</div>' +
+                '<div>' +
+                  '<span class="filter-label">' + escapeHtml(tr.timeRangeLabel) + '</span>' +
+                  '<div class="chip-wrap">' +
+                    [
+                      { v: 'newest', l: tr.sortNewest },
+                      { v: 'oldest', l: tr.sortOldest },
+                      { v: 'last_24h', l: tr.last24Hours },
+                      { v: 'last_week', l: tr.lastWeek },
+                      { v: 'last_month', l: tr.lastMonth },
+                    ].map((it) => '<button type="button" class="chip-btn ' + (state.filters.timeRange === it.v ? 'active' : '') + '" data-time-filter="' + it.v + '">' + escapeHtml(it.l) + '</button>').join('') +
+                  '</div>' +
+                '</div>' +
+                '<div class="divider-line"></div>' +
+                '<button type="button" id="overdue-filter-btn" class="overdue-toggle-btn ' + (state.filters.overdueOnly ? 'active' : '') + '">' +
+                  '<div style="min-width:0;">' +
+                    '<div style="font-size:13px;font-weight:800;">' + escapeHtml(tr.overdueLabel) + '</div>' +
+                    '<div style="font-size:11px;opacity:0.8;">' + escapeHtml(tr.overdueHint) + '</div>' +
+                  '</div>' +
+                  '<span class="switch-track ' + (state.filters.overdueOnly ? 'on' : '') + '"><span class="switch-thumb"></span></span>' +
+                '</button>' +
+              '</div>'
+            : '';
+
+          let customersHtml = '';
+          if (state.customers.length === 0) {
+            customersHtml =
+              '<div class="empty-card">' +
+                '<div class="empty-icon">' + ICONS.users + '</div>' +
+                '<h3 style="margin:0;font-size:16px;font-weight:800;">' + escapeHtml(tr.noCustomersTitle) + '</h3>' +
+                '<p style="margin:0;font-size:13px;color:var(--text-muted);max-width:280px;line-height:1.6;">' + escapeHtml(tr.noCustomersDesc) + '</p>' +
+              '</div>';
+          } else if (filtered.length === 0) {
+            customersHtml =
+              '<div class="empty-card">' +
+                '<h3 style="margin:0;font-size:15px;font-weight:800;">' + escapeHtml(tr.noResultsTitle) + '</h3>' +
+                '<p style="margin:0;font-size:12px;color:var(--text-muted);">' + escapeHtml(tr.noResultsDesc) + '</p>' +
+              '</div>';
+          } else {
+            customersHtml = '<div class="cards-stack">' + filtered.map((c) => {
+              const isG = c.balance > 0;
+              const isT = c.balance < 0;
+              const valClass = isG ? 'text-rose-ink' : isT ? 'text-emerald-ink' : '';
+              const statusLbl = isG ? (tr.givenTag + ' · ' + tr.owesYouShort) : isT ? (tr.takenTag + ' · ' + tr.youOweShort) : tr.settledTag;
+              return (
+                '<button type="button" class="customer-card" data-customer-id="' + escapeHtml(c.id) + '">' +
+                  '<div class="customer-main">' +
+                    '<div class="customer-name">' + escapeHtml(c.name) + '</div>' +
+                    '<div class="customer-meta">' +
+                      '<span>' + escapeHtml(formatRelativeTime(c.lastTransactionAt)) + '</span>' +
+                      (c.isOverdue ? '<span aria-hidden="true">·</span><span class="overdue-text">' + escapeHtml(tr.overdueBadge) + '</span>' : '') +
+                    '</div>' +
+                  '</div>' +
+                  '<div class="customer-balance-col">' +
+                    '<span class="customer-balance-val font-num ' + valClass + '" dir="ltr">' + escapeHtml(formatCurrency(c.balance)) + '</span>' +
+                    '<span class="customer-balance-tag ' + valClass + '" style="' + (!isG && !isT ? 'color:var(--text-muted);' : '') + '">' + escapeHtml(statusLbl) + '</span>' +
+                  '</div>' +
+                '</button>'
+              );
+            }).join('') + '</div>';
+          }
+
+          return (
+            '<header class="app-header">' +
+              '<div class="header-inner">' +
+                '<button type="button" class="icon-btn" id="open-settings-btn" aria-label="' + escapeHtml(tr.settings) + '" title="' + escapeHtml(tr.settings) + '">' + ICONS.settings + '</button>' +
+                '<div class="header-title-wrap">' +
+                  '<h1 class="header-title">' + escapeHtml(tr.appName) + '</h1>' +
+                  '<p class="header-subtitle">' + escapeHtml(tr.designedBy) + '</p>' +
+                '</div>' +
+                logoHtml +
+              '</div>' +
+            '</header>' +
+            '<main class="main-grid">' +
+              '<div class="stack-col sticky-col">' +
+                offlineHtml +
+                installBannerHtml +
+                reminderHtml +
+                '<section class="totals-card" aria-label="' + escapeHtml(tr.netBalance) + '">' +
+                  '<div class="totals-glow-1"></div><div class="totals-glow-2"></div>' +
+                  '<div class="totals-inner">' +
+                    '<div class="totals-net-head">' +
+                      '<div class="totals-meta"><span>' + escapeHtml(tr.netBalance) + '</span><span>·</span><span class="tabular-nums">' + state.customers.length + ' ' + escapeHtml(tr.customersCount) + '</span></div>' +
+                      '<div class="totals-net-amount font-num ' + netColor + '" dir="ltr">' + netPrefix + escapeHtml(formatCurrency(data.netBalance)) + '</div>' +
+                      '<div class="totals-net-state">' + escapeHtml(netState) + '</div>' +
+                    '</div>' +
+                    '<div class="totals-divider"></div>' +
+                    '<div class="totals-split">' +
+                      '<div class="totals-box">' +
+                        '<div class="totals-box-label text-rose">' + ICONS.arrowUpRight + '<span>' + escapeHtml(tr.totalGiven) + '</span></div>' +
+                        '<div class="totals-box-val font-num text-rose" dir="ltr">' + escapeHtml(formatCurrency(data.totalGiven)) + '</div>' +
+                      '</div>' +
+                      '<div class="totals-box">' +
+                        '<div class="totals-box-label text-emerald">' + ICONS.arrowDownLeft + '<span>' + escapeHtml(tr.totalTaken) + '</span></div>' +
+                        '<div class="totals-box-val font-num text-emerald" dir="ltr">' + escapeHtml(formatCurrency(data.totalTaken)) + '</div>' +
+                      '</div>' +
+                    '</div>' +
+                  '</div>' +
+                '</section>' +
+              '</div>' +
+              '<div class="stack-col">' +
+                '<div class="search-row">' +
+                  '<div class="input-wrap">' +
+                    '<span class="input-icon-start">' + ICONS.search + '</span>' +
+                    '<input type="search" id="search-input" class="text-input with-both-icons" value="' + escapeHtml(state.searchQuery) + '" placeholder="' + escapeHtml(tr.searchPlaceholder) + '" />' +
+                    (state.searchQuery ? '<button type="button" class="input-clear-end" id="clear-search-btn" aria-label="' + escapeHtml(tr.close) + '">' + ICONS.close + '</button>' : '') +
+                  '</div>' +
+                  '<button type="button" id="toggle-filters-btn" class="dice-btn ' + (state.filtersOpen || activeFilterCount > 0 ? 'active' : '') + '" aria-label="' + escapeHtml(tr.filtersTitle) + '">' +
+                    '<span style="font-size:18px;line-height:1;">🎲</span>' +
+                    (activeFilterCount > 0 ? '<span class="font-num">' + activeFilterCount + '</span>' : '') +
+                  '</button>' +
+                '</div>' +
+                filterPanelHtml +
+                '<div class="list-header">' +
+                  '<h2 class="list-title">' + escapeHtml(tr.customersTitle) + '</h2>' +
+                  '<span class="list-count font-num">' + filtered.length + ' ' + escapeHtml(tr.customersCount) + '</span>' +
+                '</div>' +
+                customersHtml +
+              '</div>' +
+            '</main>' +
+            '<button type="button" class="fab-btn" id="add-customer-fab">' + escapeHtml(tr.addCustomerFab) + '</button>'
+          );
+        }
+
+        function renderProfileView(data) {
+          const tr = t();
+          const customer = data.summaries.find((c) => c.id === state.selectedCustomerId);
+          if (!customer) {
+            state.activeView = 'home';
+            return renderHomeView(data);
+          }
+          const txs = state.transactions
+            .filter((tx) => tx.customerId === customer.id)
+            .sort((a, b) => new Date(b.date) - new Date(a.date));
+
+          const backIcon = isRtl() ? ICONS.arrowRight : ICONS.arrowLeft;
+          const isG = customer.balance > 0;
+          const isT = customer.balance < 0;
+          const balClass = isG ? 'text-rose' : isT ? 'text-emerald' : '';
+          const statusLbl = isG ? tr.owesYouStatus : isT ? tr.youOweStatus : tr.settledStatus;
+
+          const stmtMsg = buildStatementMessage(customer, txs);
+          const stmtHref = buildWhatsAppHref(customer.phone, stmtMsg);
+          const remMsg = buildReminderMessage(customer.name, customer.balance);
+          const remHref = buildWhatsAppHref(customer.phone, remMsg);
+
+          const txListHtml = txs.length === 0
+            ? '<div class="empty-card"><p style="margin:0;font-size:14px;color:var(--text-muted);">' + escapeHtml(tr.emptyTransactions) + '</p></div>'
+            : '<div class="cards-stack">' + txs.map((tx) => {
+                const g = tx.type === 'given';
+                return (
+                  '<div class="tx-card ' + (g ? 'given' : 'taken') + '" data-tx-id="' + escapeHtml(tx.id) + '">' +
+                    '<div class="tx-row">' +
+                      '<div class="tx-info">' +
+                        '<div class="tx-meta">' +
+                          '<span class="' + (g ? 'text-rose-ink' : 'text-emerald-ink') + '" style="font-weight:800;">' + escapeHtml(g ? tr.givenTag : tr.takenTag) + '</span>' +
+                          '<span style="color:var(--text-muted);">·</span>' +
+                          '<span style="color:var(--text-muted);">' + escapeHtml(formatDateTimeDisplay(tx.date)) + '</span>' +
+                        '</div>' +
+                        (tx.note ? '<p class="tx-note">' + escapeHtml(tx.note) + '</p>' : '') +
+                      '</div>' +
+                      '<span class="tx-amount font-num ' + (g ? 'text-rose-ink' : 'text-emerald-ink') + '" dir="ltr">' + (g ? '+' : '-') + escapeHtml(formatCurrency(tx.amount)) + '</span>' +
+                    '</div>' +
+                  '</div>'
+                );
+              }).join('') + '</div>';
+
+          return (
+            '<header class="app-header">' +
+              '<div class="header-inner narrow">' +
+                '<button type="button" class="icon-btn" id="profile-back-btn" aria-label="' + escapeHtml(tr.back) + '">' + backIcon + '</button>' +
+                '<div class="header-title-wrap">' +
+                  '<h1 class="header-title">' + escapeHtml(customer.name) + '</h1>' +
+                  (customer.phone ? '<p class="header-subtitle font-num" dir="ltr">' + escapeHtml(customer.phone) + '</p>' : '') +
+                '</div>' +
+                '<div style="display:flex;gap:4px;">' +
+                  '<button type="button" class="icon-btn" id="profile-edit-btn" aria-label="' + escapeHtml(tr.edit) + '">' + ICONS.edit + '</button>' +
+                  '<button type="button" class="icon-btn danger" id="profile-del-btn" aria-label="' + escapeHtml(tr.delete) + '">' + ICONS.trash + '</button>' +
+                '</div>' +
+              '</div>' +
+            '</header>' +
+            '<main class="profile-grid">' +
+              '<div class="stack-col sticky-col">' +
+                '<section class="totals-card">' +
+                  '<div class="totals-net-head">' +
+                    '<span style="font-size:12px;font-weight:700;color:#94a3b8;">' + escapeHtml(tr.currentBalance) + '</span>' +
+                    '<div class="totals-net-amount font-num ' + balClass + '" dir="ltr">' + escapeHtml(formatCurrency(customer.balance)) + '</div>' +
+                    '<div style="font-size:12px;font-weight:700;color:#cbd5e1;">' + escapeHtml(statusLbl) + ' · <span class="font-num">' + txs.length + '</span></div>' +
+                  '</div>' +
+                  '<div class="totals-divider" style="margin:14px 0;"></div>' +
+                  '<div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;text-align:center;">' +
+                    '<div><div style="font-size:11px;color:#fda4af;font-weight:700;">' + escapeHtml(tr.givenTag) + '</div><div class="font-num text-rose" style="font-size:16px;font-weight:800;" dir="ltr">' + escapeHtml(formatCurrency(customer.totalGiven)) + '</div></div>' +
+                    '<div><div style="font-size:11px;color:#6ee7b7;font-weight:700;">' + escapeHtml(tr.takenTag) + '</div><div class="font-num text-emerald" style="font-size:16px;font-weight:800;" dir="ltr">' + escapeHtml(formatCurrency(customer.totalTaken)) + '</div></div>' +
+                  '</div>' +
+                '</section>' +
+                '<div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;">' +
+                  '<button type="button" class="btn btn-rose" id="open-calc-given" style="min-height:56px;">' + ICONS.arrowUpRight + '<span>' + escapeHtml(tr.giveButton) + '</span></button>' +
+                  '<button type="button" class="btn btn-emerald" id="open-calc-taken" style="min-height:56px;">' + ICONS.arrowDownLeft + '<span>' + escapeHtml(tr.takeButton) + '</span></button>' +
+                '</div>' +
+                '<div style="display:flex;flex-direction:column;gap:8px;">' +
+                  '<div style="display:flex;gap:8px;">' +
+                    '<a href="' + escapeHtml(stmtHref) + '" target="_blank" rel="noopener noreferrer" class="btn btn-whatsapp" style="flex:1;">' + ICONS.whatsapp + '<span>' + escapeHtml(tr.sendWhatsAppStatement) + '</span></a>' +
+                    '<button type="button" class="btn btn-outline" id="copy-stmt-btn" aria-label="' + escapeHtml(tr.copyStatement) + '" style="min-width:48px;padding:0;">' + ICONS.copy + '</button>' +
+                  '</div>' +
+                  (isG ? '<a href="' + escapeHtml(remHref) + '" target="_blank" rel="noopener noreferrer" class="btn btn-amber-soft" style="font-size:12px;">' + ICONS.bell + '<span>' + escapeHtml(tr.sendWhatsAppReminder) + '</span></a>' : '') +
+                  (!customer.phone ? '<p style="margin:0;font-size:11px;color:var(--text-muted);text-align:center;">' + escapeHtml(tr.noPhoneWarning) + '</p>' : '') +
+                '</div>' +
+              '</div>' +
+              '<section class="stack-col">' +
+                '<div class="list-header">' +
+                  '<h2 class="list-title">' + escapeHtml(tr.transactionsHistory) + '</h2>' +
+                  (txs.length > 0 ? '<span style="font-size:11px;color:var(--text-muted);">' + escapeHtml(tr.longPressHint) + '</span>' : '') +
+                '</div>' +
+                txListHtml +
+              '</section>' +
+            '</main>'
+          );
+        }
+
+        function renderCalculatorView(data) {
+          const tr = t();
+          const customer = data.summaries.find((c) => c.id === state.selectedCustomerId);
+          if (!customer) {
+            state.activeView = 'home';
+            return renderHomeView(data);
+          }
+          const backIcon = isRtl() ? ICONS.arrowRight : ICONS.arrowLeft;
+          const isG = state.calc.type === 'given';
+          const evalVal = evaluateMathExpression(state.calc.expression);
+          const hasPrev = state.transactions.some((tx) => tx.customerId === customer.id);
+          const undoReady = isUndoKeyword(state.calc.note);
+          const keys = ['7', '8', '9', '÷', '4', '5', '6', '×', '1', '2', '3', '−', '.', '0', '=', '+'];
+
+          return (
+            '<header class="app-header">' +
+              '<div class="header-inner calc-width">' +
+                '<button type="button" class="icon-btn" id="calc-back-btn" aria-label="' + escapeHtml(tr.back) + '">' + backIcon + '</button>' +
+                '<div class="header-title-wrap">' +
+                  '<h1 class="header-title">' + escapeHtml(customer.name) + '</h1>' +
+                  '<p class="header-subtitle ' + (isG ? 'text-rose-ink' : 'text-emerald-ink') + '" style="font-weight:700;">' + escapeHtml(isG ? tr.calcTitleGiven : tr.calcTitleTaken) + '</p>' +
+                '</div>' +
+                '<div style="width:44px;"></div>' +
+              '</div>' +
+            '</header>' +
+            '<main class="calc-container">' +
+              '<div style="display:grid;grid-template-columns:1fr 1fr;gap:6px;padding:4px;border-radius:16px;background:var(--bg-subtle);border:1px solid var(--border-hairline);">' +
+                '<button type="button" class="btn btn-sm ' + (isG ? 'btn-rose' : '') + '" id="calc-type-given" style="' + (!isG ? 'background:transparent;color:var(--text-muted);' : '') + '">' + escapeHtml(tr.giveButton) + '</button>' +
+                '<button type="button" class="btn btn-sm ' + (!isG ? 'btn-emerald' : '') + '" id="calc-type-taken" style="' + (isG ? 'background:transparent;color:var(--text-muted);' : '') + '">' + escapeHtml(tr.takeButton) + '</button>' +
+              '</div>' +
+              '<div class="calc-display">' +
+                '<div class="calc-expr-row">' +
+                  '<span id="calc-expr-text" class="calc-expr font-num" dir="ltr">' + escapeHtml(state.calc.expression || '0') + '</span>' +
+                  '<div style="display:flex;gap:6px;">' +
+                    '<button type="button" class="calc-mini-btn" id="calc-clear-btn">C</button>' +
+                    '<button type="button" class="calc-mini-btn" id="calc-bksp-btn" aria-label="' + escapeHtml(tr.delete) + '">' + ICONS.backspace + '</button>' +
+                  '</div>' +
+                '</div>' +
+                '<div id="calc-result-text" class="calc-result font-num ' + (isG ? 'text-rose' : 'text-emerald') + '" dir="ltr">' + escapeHtml(evalVal !== null ? formatCurrency(evalVal) : '0') + '</div>' +
+                '<p id="calc-err-text" class="' + (state.calc.error ? '' : 'hidden') + '" style="margin:0;font-size:12px;font-weight:700;color:#fb7185;text-align:end;">' + escapeHtml(state.calc.error) + '</p>' +
+              '</div>' +
+              '<div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:12px;">' +
+                '<div>' +
+                  '<label for="calc-note-input" class="filter-label">' + escapeHtml(tr.noteLabel) + '</label>' +
+                  '<input id="calc-note-input" type="text" class="text-input" value="' + escapeHtml(state.calc.note) + '" placeholder="' + escapeHtml(tr.notePlaceholder) + '" />' +
+                '</div>' +
+                '<div>' +
+                  '<label for="calc-date-input" class="filter-label">' + escapeHtml(tr.dateTimeLabel) + '</label>' +
+                  '<input id="calc-date-input" type="datetime-local" dir="ltr" class="text-input font-num" value="' + escapeHtml(state.calc.dateTime) + '" />' +
+                '</div>' +
+              '</div>' +
+              '<div id="smart-undo-banner" class="' + (undoReady ? '' : 'hidden') + ' reminder-banner">' +
+                '<div style="display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:10px;">' +
+                  '<div style="display:flex;align-items:center;gap:8px;font-size:13px;font-weight:800;">' + ICONS.undo + '<span>' + escapeHtml(hasPrev ? tr.smartUndoDetected : tr.smartUndoEmpty) + '</span></div>' +
+                  (hasPrev ? '<button type="button" class="btn btn-sm" id="smart-undo-btn" style="background:var(--accent-amber);color:#fff;">' + escapeHtml(tr.smartUndoButton) + '</button>' : '') +
+                '</div>' +
+              '</div>' +
+              '<div class="calc-keypad">' +
+                keys.map((k) => {
+                  const cls = k === '=' ? 'eq' : ['÷', '×', '−', '+'].includes(k) ? 'op' : '';
+                  return '<button type="button" class="calc-key ' + cls + '" data-calc-key="' + k + '">' + k + '</button>';
+                }).join('') +
+              '</div>' +
+              '<button type="button" id="calc-confirm-btn" class="btn ' + (undoReady && hasPrev ? '' : isG ? 'btn-rose' : 'btn-emerald') + '" style="min-height:56px;' + (undoReady && hasPrev ? 'background:var(--accent-amber);color:#fff;' : '') + '">' +
+                (undoReady && hasPrev ? ICONS.undo + '<span>' + escapeHtml(tr.smartUndoButton) + '</span>' : ICONS.check + '<span>' + escapeHtml(tr.confirmTransaction) + '</span>') +
+              '</button>' +
+            '</main>'
+          );
+        }
+
+        function renderSettingsView() {
+          const tr = t();
+          const backIcon = isRtl() ? ICONS.arrowRight : ICONS.arrowLeft;
+          const preview = buildReminderMessage(state.settings.language === 'ar' ? 'أحمد محمد' : 'Ahmad', 1250);
+          const gmailHref = buildGmailComposeHref(
+            state.settings.backupEmail,
+            tr.appName + ' - ' + (state.settings.storeName || tr.appName) + ' (' + new Date().toISOString().slice(0, 10) + ')',
+            tr.appName + ' (' + (state.settings.storeName || tr.appName) + ')\n' + tr.lastBackupLabel + ' ' + new Date().toLocaleString()
+          );
+
+          return (
+            '<header class="app-header">' +
+              '<div class="header-inner narrow">' +
+                '<button type="button" class="icon-btn" id="settings-back-btn" aria-label="' + escapeHtml(tr.back) + '">' + backIcon + '</button>' +
+                '<h1 class="header-title">' + escapeHtml(tr.settingsTitle) + '</h1>' +
+                '<div style="width:44px;"></div>' +
+              '</div>' +
+            '</header>' +
+            '<main class="settings-grid">' +
+              '<section class="surface-card stack-col">' +
+                '<div>' +
+                  '<h2 style="margin:0 0 12px;font-size:14px;font-weight:800;">' + escapeHtml(tr.storeLogoSection) + '</h2>' +
+                  '<div style="display:flex;align-items:center;gap:14px;flex-wrap:wrap;">' +
+                    '<div class="logo-preview">' +
+                      (state.settings.storeLogo ? '<img src="' + state.settings.storeLogo + '" alt="" referrerpolicy="no-referrer" />' : ICONS.book) +
+                    '</div>' +
+                    '<div style="display:flex;gap:8px;flex-wrap:wrap;">' +
+                      '<input type="file" id="logo-file-input" accept="image/*" class="hidden" />' +
+                      '<button type="button" class="btn btn-sm btn-primary" id="upload-logo-btn">' + ICONS.upload + '<span>' + escapeHtml(state.settings.storeLogo ? tr.changeLogo : tr.uploadLogo) + '</span></button>' +
+                      (state.settings.storeLogo ? '<button type="button" class="btn btn-sm btn-danger-soft" id="remove-logo-btn">' + ICONS.trash + '<span>' + escapeHtml(tr.removeLogo) + '</span></button>' : '') +
+                    '</div>' +
+                  '</div>' +
+                '</div>' +
+                '<div class="divider-line"></div>' +
+                '<div>' +
+                  '<label for="store-name-input" class="filter-label" style="font-size:14px;color:var(--text-primary);">' + escapeHtml(tr.storeNameSection) + '</label>' +
+                  '<input id="store-name-input" type="text" class="text-input" value="' + escapeHtml(state.settings.storeName) + '" placeholder="' + escapeHtml(tr.storeNamePlaceholder) + '" />' +
+                '</div>' +
+              '</section>' +
+
+              '<section class="surface-card stack-col">' +
+                '<div>' +
+                  '<h2 style="margin:0 0 10px;font-size:14px;font-weight:800;">' + escapeHtml(tr.languageSection) + '</h2>' +
+                  '<div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;">' +
+                    [
+                      { id: 'ar', label: 'العربية', dir: 'RTL' },
+                      { id: 'en', label: 'English', dir: 'LTR' },
+                      { id: 'fr', label: 'Français', dir: 'LTR' },
+                      { id: 'tr', label: 'Türkçe', dir: 'LTR' },
+                    ].map((l) => {
+                      const act = state.settings.language === l.id;
+                      return '<button type="button" class="btn btn-sm ' + (act ? 'btn-primary' : 'btn-outline') + '" data-lang-btn="' + l.id + '" style="justify-content:space-between;min-height:46px;"><span>' + l.label + '</span><span style="font-size:11px;opacity:0.7;">' + l.dir + '</span></button>';
+                    }).join('') +
+                  '</div>' +
+                '</div>' +
+                '<div class="divider-line"></div>' +
+                '<div>' +
+                  '<h2 style="margin:0 0 10px;font-size:14px;font-weight:800;">' + escapeHtml(tr.appearanceSection) + '</h2>' +
+                  '<button type="button" id="dark-mode-toggle" class="overdue-toggle-btn">' +
+                    '<div><div style="font-size:14px;font-weight:700;">' + escapeHtml(tr.darkModeLabel) + '</div><div style="font-size:12px;color:var(--text-muted);">' + escapeHtml(tr.darkModeDesc) + '</div></div>' +
+                    '<span class="switch-track ' + (state.settings.darkMode ? 'on' : '') + '"><span class="switch-thumb"></span></span>' +
+                  '</button>' +
+                '</div>' +
+              '</section>' +
+
+              '<section class="surface-card stack-col">' +
+                '<div>' +
+                  '<h2 style="margin:0 0 10px;font-size:14px;font-weight:800;">' + escapeHtml(tr.countryCodeSection) + '</h2>' +
+                  '<div class="chip-wrap" dir="ltr" style="margin-bottom:10px;">' +
+                    COUNTRY_CODES.map((c) => '<button type="button" class="chip-btn font-num ' + (state.settings.defaultCountryCode === c.code ? 'active' : '') + '" data-cc-btn="' + c.code + '">' + c.label + '</button>').join('') +
+                  '</div>' +
+                  '<input id="custom-cc-input" type="text" dir="ltr" class="text-input font-num" value="' + escapeHtml(state.settings.defaultCountryCode) + '" placeholder="' + escapeHtml(tr.countryCodeCustom) + '" />' +
+                '</div>' +
+                '<div class="divider-line"></div>' +
+                '<div>' +
+                  '<h2 style="margin:0 0 6px;font-size:14px;font-weight:800;">' + escapeHtml(tr.reminderTemplateSection) + '</h2>' +
+                  '<p style="margin:0 0 10px;font-size:12px;color:var(--text-muted);">' + escapeHtml(tr.reminderTemplateHelp) + '</p>' +
+                  '<div style="display:flex;gap:8px;flex-wrap:wrap;margin-bottom:10px;">' +
+                    '<button type="button" class="btn btn-sm btn-secondary" data-insert-var="{name}">' + escapeHtml(tr.insertVarName) + '</button>' +
+                    '<button type="button" class="btn btn-sm btn-secondary" data-insert-var="{balance}">' + escapeHtml(tr.insertVarBalance) + '</button>' +
+                  '</div>' +
+                  '<textarea id="reminder-tpl-input" class="textarea-input">' + escapeHtml(state.settings.reminderTemplate) + '</textarea>' +
+                  '<div class="preview-box" style="margin-top:10px;"><strong style="display:block;margin-bottom:4px;">' + escapeHtml(tr.templatePreview) + '</strong><span id="tpl-preview-text">' + escapeHtml(preview) + '</span></div>' +
+                '</div>' +
+              '</section>' +
+
+              '<section class="surface-card stack-col">' +
+                '<div>' +
+                  '<h2 style="margin:0 0 4px;font-size:14px;font-weight:800;">' + escapeHtml(tr.backupSection) + '</h2>' +
+                  '<p style="margin:0;font-size:12px;color:var(--text-muted);">' + escapeHtml(tr.lastBackupLabel) + ' <strong>' + escapeHtml(state.settings.lastBackupAt ? formatDateTimeDisplay(state.settings.lastBackupAt) : tr.neverBackedUp) + '</strong></p>' +
+                '</div>' +
+                '<button type="button" class="btn btn-primary" id="export-backup-btn">' + ICONS.download + '<span>' + escapeHtml(tr.exportBackup) + '</span></button>' +
+                '<button type="button" class="btn btn-secondary" id="share-backup-btn">' + ICONS.share + '<span>' + escapeHtml(tr.shareBackup) + '</span></button>' +
+                '<div style="border-radius:16px;background:var(--bg-input);border:1px solid var(--border-hairline);padding:14px;display:flex;flex-direction:column;gap:10px;">' +
+                  '<label for="gmail-recipient-input" class="filter-label" style="margin:0;">' + escapeHtml(tr.gmailRecipientLabel) + '</label>' +
+                  '<input id="gmail-recipient-input" type="email" dir="ltr" class="text-input font-num" value="' + escapeHtml(state.settings.backupEmail || '') + '" placeholder="' + escapeHtml(tr.gmailRecipientPlaceholder) + '" />' +
+                  '<a id="send-gmail-link" href="' + escapeHtml(gmailHref) + '" target="_blank" rel="noopener noreferrer" class="btn btn-rose">' + ICONS.mail + '<span>' + escapeHtml(tr.sendBackupToGmail) + '</span></a>' +
+                  '<p style="margin:0;font-size:11px;color:var(--text-muted);line-height:1.5;">' + escapeHtml(tr.gmailBackupReadyHint) + '</p>' +
+                '</div>' +
+                '<input type="file" id="restore-file-input" accept=".json,application/json" class="hidden" />' +
+                '<button type="button" class="btn btn-outline" id="restore-backup-btn">' + ICONS.upload + '<span>' + escapeHtml(tr.restoreBackup) + '</span></button>' +
+              '</section>' +
+
+              '<section class="surface-card stack-col" style="grid-column:1 / -1;">' +
+                '<div>' +
+                  '<h2 style="margin:0 0 6px;font-size:14px;font-weight:800;">' + escapeHtml(tr.pwaInstallSection) + '</h2>' +
+                  '<p style="margin:0;font-size:12px;color:var(--text-muted);line-height:1.6;">' + escapeHtml(tr.pwaInstallDesc) + '</p>' +
+                '</div>' +
+                (pwa.isInstalled
+                  ? '<div class="offline-strip" style="background:var(--tint-taken-bg);border-color:var(--tint-taken-border);color:var(--text-primary);">' + ICONS.check + '<span style="flex:1;">' + escapeHtml(tr.pwaInstalledBadge) + '</span></div>'
+                  : pwa.deferredPrompt
+                    ? '<button type="button" class="btn btn-emerald" id="settings-install-btn">' + ICONS.download + '<span>' + escapeHtml(tr.pwaInstallBtn) + '</span></button>'
+                    : '<div class="preview-box" style="margin:0;">' + escapeHtml(pwa.isIOS ? tr.pwaIOSHint : tr.pwaAndroidHint) + '</div>') +
+              '</section>' +
+            '</main>'
+          );
+        }
+
+        // ============================================================
+        // 11. EVENT BINDING & RENDER LOOP
+        // ============================================================
+        function bindHomeEvents() {
+          const settingsBtn = document.getElementById('open-settings-btn');
+          const logoBtn = document.getElementById('home-logo-btn');
+          if (settingsBtn) settingsBtn.addEventListener('click', () => { state.activeView = 'settings'; render(); });
+          if (logoBtn) logoBtn.addEventListener('click', () => { state.activeView = 'settings'; render(); });
+
+          const fab = document.getElementById('add-customer-fab');
+          if (fab) fab.addEventListener('click', () => openCustomerModal(null));
+
+          const searchEl = document.getElementById('search-input');
+          if (searchEl) {
+            searchEl.addEventListener('input', (e) => {
+              const cursor = e.target.selectionStart;
+              state.searchQuery = e.target.value;
+              render();
+              const nextSearch = document.getElementById('search-input');
+              if (nextSearch) {
+                nextSearch.focus();
+                try { nextSearch.setSelectionRange(cursor, cursor); } catch (_) {}
+              }
+            });
+          }
+
+          const clearBtn = document.getElementById('clear-search-btn');
+          if (clearBtn) clearBtn.addEventListener('click', () => { state.searchQuery = ''; render(); });
+
+          const toggleFiltersBtn = document.getElementById('toggle-filters-btn');
+          if (toggleFiltersBtn) toggleFiltersBtn.addEventListener('click', () => { state.filtersOpen = !state.filtersOpen; render(); });
+
+          const resetFiltersBtn = document.getElementById('reset-filters-btn');
+          if (resetFiltersBtn) {
+            resetFiltersBtn.addEventListener('click', () => {
+              state.filters = { accountType: 'all', timeRange: 'newest', overdueOnly: false };
+              render();
+            });
+          }
+
+          document.querySelectorAll('[data-acct-filter]').forEach((btn) => {
+            btn.addEventListener('click', () => {
+              state.filters.accountType = btn.getAttribute('data-acct-filter');
+              render();
+            });
+          });
+
+          document.querySelectorAll('[data-time-filter]').forEach((btn) => {
+            btn.addEventListener('click', () => {
+              state.filters.timeRange = btn.getAttribute('data-time-filter');
+              render();
+            });
+          });
+
+          const overdueBtn = document.getElementById('overdue-filter-btn');
+          if (overdueBtn) overdueBtn.addEventListener('click', () => { state.filters.overdueOnly = !state.filters.overdueOnly; render(); });
+
+          document.querySelectorAll('[data-customer-id]').forEach((card) => {
+            card.addEventListener('click', () => {
+              state.selectedCustomerId = card.getAttribute('data-customer-id');
+              state.activeView = 'profile';
+              render();
+            });
+          });
+
+          const homeInstallBtn = document.getElementById('home-install-btn');
+          if (homeInstallBtn) homeInstallBtn.addEventListener('click', triggerPWAInstall);
+          const dismissInstallBtn = document.getElementById('dismiss-install-btn');
+          if (dismissInstallBtn) dismissInstallBtn.addEventListener('click', () => { pwa.installDismissed = true; render(); });
+
+          const bannerBackup = document.getElementById('banner-backup-btn');
+          if (bannerBackup) bannerBackup.addEventListener('click', exportBackupFile);
+          const bannerSnooze = document.getElementById('banner-snooze-btn');
+          if (bannerSnooze) bannerSnooze.addEventListener('click', () => {
+            state.settings.reminderDismissedUntil = Date.now() + 2 * 3600000;
+            persistSettings();
+            render();
+          });
+          const snoozeClose = document.getElementById('snooze-close-btn');
+          if (snoozeClose) snoozeClose.addEventListener('click', () => {
+            state.settings.reminderDismissedUntil = Date.now() + 2 * 3600000;
+            persistSettings();
+            render();
+          });
+        }
+
+        function bindProfileEvents(data) {
+          const tr = t();
+          const customer = data.summaries.find((c) => c.id === state.selectedCustomerId);
+          if (!customer) return;
+
+          document.getElementById('profile-back-btn').addEventListener('click', () => { state.activeView = 'home'; render(); });
+          document.getElementById('profile-edit-btn').addEventListener('click', () => openCustomerModal(customer));
+          document.getElementById('profile-del-btn').addEventListener('click', () => {
+            openConfirmDialog({
+              title: tr.deleteCustomerTitle,
+              description: tr.deleteCustomerConfirm,
+              confirmLabel: tr.delete,
+              onConfirm: () => {
+                state.customers = state.customers.filter((c) => c.id !== customer.id);
+                state.transactions = state.transactions.filter((tx) => tx.customerId !== customer.id);
+                persistCustomers();
+                persistTransactions();
+                state.selectedCustomerId = null;
+                state.activeView = 'home';
+                showToast(tr.customerDeleted);
+                render();
+              },
+            });
+          });
+
+          document.getElementById('open-calc-given').addEventListener('click', () => {
+            state.calc = { type: 'given', expression: '', note: '', dateTime: toLocalDateTimeInput(), error: '' };
+            state.activeView = 'calculator';
+            render();
+          });
+          document.getElementById('open-calc-taken').addEventListener('click', () => {
+            state.calc = { type: 'taken', expression: '', note: '', dateTime: toLocalDateTimeInput(), error: '' };
+            state.activeView = 'calculator';
+            render();
+          });
+
+          document.getElementById('copy-stmt-btn').addEventListener('click', async () => {
+            const txs = state.transactions.filter((tx) => tx.customerId === customer.id);
+            const msg = buildStatementMessage(customer, txs);
+            try {
+              await navigator.clipboard.writeText(msg);
+              showToast(tr.statementCopied);
+            } catch (_) {}
+          });
+
+          // Long-press & right-click delete on transaction cards
+          document.querySelectorAll('[data-tx-id]').forEach((card) => {
+            const txId = card.getAttribute('data-tx-id');
+            let pressTimer = null;
+
+            function requestDelete() {
+              openConfirmDialog({
+                title: tr.deleteTransactionTitle,
+                description: tr.deleteTransactionConfirm,
+                confirmLabel: tr.delete,
+                onConfirm: () => {
+                  state.transactions = state.transactions.filter((tx) => tx.id !== txId);
+                  persistTransactions();
+                  showToast(tr.transactionDeleted);
+                  render();
+                },
+              });
+            }
+
+            function startPress() {
+              clearPress();
+              card.classList.add('pressing');
+              pressTimer = setTimeout(() => {
+                card.classList.remove('pressing');
+                if (navigator.vibrate) navigator.vibrate(25);
+                requestDelete();
+              }, 550);
+            }
+
+            function clearPress() {
+              if (pressTimer) { clearTimeout(pressTimer); pressTimer = null; }
+              card.classList.remove('pressing');
+            }
+
+            card.addEventListener('mousedown', startPress);
+            card.addEventListener('mouseup', clearPress);
+            card.addEventListener('mouseleave', clearPress);
+            card.addEventListener('touchstart', startPress, { passive: true });
+            card.addEventListener('touchend', clearPress);
+            card.addEventListener('touchmove', clearPress);
+            card.addEventListener('contextmenu', (e) => {
+              e.preventDefault();
+              requestDelete();
+            });
+          });
+        }
+
+        function bindCalculatorEvents() {
+          const tr = t();
+          const customerId = state.selectedCustomerId;
+
+          function updateCalcDisplayOnly() {
+            const exprEl = document.getElementById('calc-expr-text');
+            const resEl = document.getElementById('calc-result-text');
+            const errEl = document.getElementById('calc-err-text');
+            if (exprEl) exprEl.textContent = state.calc.expression || '0';
+            const val = evaluateMathExpression(state.calc.expression);
+            if (resEl) resEl.textContent = val !== null ? formatCurrency(val) : '0';
+            if (errEl) {
+              if (state.calc.error) {
+                errEl.textContent = state.calc.error;
+                errEl.classList.remove('hidden');
+              } else {
+                errEl.classList.add('hidden');
+              }
+            }
+          }
+
+          function appendToken(token) {
+            state.calc.error = '';
+            const ops = ['+', '−', '×', '÷'];
+            const prev = state.calc.expression;
+            const last = prev.slice(-1);
+            if (ops.includes(token)) {
+              if (!prev) return;
+              state.calc.expression = ops.includes(last) ? prev.slice(0, -1) + token : prev + token;
+            } else if (token === '.') {
+              const seg = prev.split(/[+−×÷]/).pop() || '';
+              if (seg.includes('.')) return;
+              state.calc.expression = prev ? prev + '.' : '0.';
+            } else {
+              state.calc.expression = prev === '0' ? token : prev + token;
+            }
+            updateCalcDisplayOnly();
+          }
+
+          function executeUndoLast() {
+            const custTxs = state.transactions
+              .filter((tx) => tx.customerId === customerId)
+              .sort((a, b) => b.createdAt - a.createdAt);
+            if (custTxs.length === 0) {
+              showToast(tr.smartUndoEmpty);
+              return;
+            }
+            const lastId = custTxs[0].id;
+            state.transactions = state.transactions.filter((tx) => tx.id !== lastId);
+            persistTransactions();
+            state.activeView = 'profile';
+            showToast(tr.smartUndoDone);
+            render();
+          }
+
+          document.getElementById('calc-back-btn').addEventListener('click', () => { state.activeView = 'profile'; render(); });
+          document.getElementById('calc-type-given').addEventListener('click', () => { state.calc.type = 'given'; render(); });
+          document.getElementById('calc-type-taken').addEventListener('click', () => { state.calc.type = 'taken'; render(); });
+          document.getElementById('calc-clear-btn').addEventListener('click', () => { state.calc.expression = ''; state.calc.error = ''; updateCalcDisplayOnly(); });
+          document.getElementById('calc-bksp-btn').addEventListener('click', () => { state.calc.expression = state.calc.expression.slice(0, -1); state.calc.error = ''; updateCalcDisplayOnly(); });
+
+          document.querySelectorAll('[data-calc-key]').forEach((btn) => {
+            btn.addEventListener('click', () => {
+              const k = btn.getAttribute('data-calc-key');
+              if (k === '=') {
+                const v = evaluateMathExpression(state.calc.expression);
+                if (v !== null && v >= 0) {
+                  state.calc.expression = String(v);
+                  updateCalcDisplayOnly();
+                }
+              } else {
+                appendToken(k);
+              }
+            });
+          });
+
+          const noteEl = document.getElementById('calc-note-input');
+          noteEl.addEventListener('input', (e) => {
+            const cursor = e.target.selectionStart;
+            state.calc.note = e.target.value;
+            render();
+            const nextNote = document.getElementById('calc-note-input');
+            if (nextNote) {
+              nextNote.focus();
+              try { nextNote.setSelectionRange(cursor, cursor); } catch (_) {}
+            }
+          });
+
+          document.getElementById('calc-date-input').addEventListener('change', (e) => {
+            state.calc.dateTime = e.target.value;
+          });
+
+          const undoBtn = document.getElementById('smart-undo-btn');
+          if (undoBtn) undoBtn.addEventListener('click', executeUndoLast);
+
+          document.getElementById('calc-confirm-btn').addEventListener('click', () => {
+            if (isUndoKeyword(state.calc.note)) {
+              executeUndoLast();
+              return;
+            }
+            const amount = evaluateMathExpression(state.calc.expression);
+            if (amount === null || amount <= 0) {
+              state.calc.error = tr.invalidAmountError;
+              updateCalcDisplayOnly();
+              return;
+            }
+            const d = new Date(state.calc.dateTime);
+            const iso = isNaN(d.getTime()) ? new Date().toISOString() : d.toISOString();
+            const now = Date.now();
+            state.transactions.unshift({
+              id: generateId(),
+              customerId: customerId,
+              type: state.calc.type,
+              amount: amount,
+              note: state.calc.note.trim(),
+              date: iso,
+              createdAt: now,
+            });
+            state.customers = state.customers.map((c) => c.id === customerId ? Object.assign({}, c, { updatedAt: now }) : c);
+            persistTransactions();
+            persistCustomers();
+            state.activeView = 'profile';
+            showToast(tr.transactionAdded);
+            render();
+          });
+        }
+
+        function bindSettingsEvents() {
+          const tr = t();
+          document.getElementById('settings-back-btn').addEventListener('click', () => { state.activeView = 'home'; render(); });
+
+          const logoInput = document.getElementById('logo-file-input');
+          document.getElementById('upload-logo-btn').addEventListener('click', () => logoInput.click());
+          logoInput.addEventListener('change', async (e) => {
+            const file = e.target.files && e.target.files[0];
+            if (!file) return;
+            try {
+              state.settings.storeLogo = await compressLogoImage(file, 256);
+              persistSettings();
+              showToast(tr.settingsSaved);
+              render();
+            } catch (_) {
+              showToast(tr.restoreInvalidError);
+            }
+            e.target.value = '';
+          });
+
+          const removeLogoBtn = document.getElementById('remove-logo-btn');
+          if (removeLogoBtn) {
+            removeLogoBtn.addEventListener('click', () => {
+              state.settings.storeLogo = null;
+              persistSettings();
+              render();
+            });
+          }
+
+          document.getElementById('store-name-input').addEventListener('input', (e) => {
+            state.settings.storeName = e.target.value;
+            persistSettings();
+            const previewEl = document.getElementById('tpl-preview-text');
+            if (previewEl) previewEl.textContent = buildReminderMessage(state.settings.language === 'ar' ? 'أحمد محمد' : 'Ahmad', 1250);
+          });
+
+          document.querySelectorAll('[data-lang-btn]').forEach((btn) => {
+            btn.addEventListener('click', () => {
+              const newLang = btn.getAttribute('data-lang-btn');
+              const prevDef = DEFAULT_REMINDER_TEMPLATES[state.settings.language];
+              if (!state.settings.reminderTemplate.trim() || state.settings.reminderTemplate.trim() === prevDef.trim()) {
+                state.settings.reminderTemplate = DEFAULT_REMINDER_TEMPLATES[newLang];
+              }
+              state.settings.language = newLang;
+              persistSettings();
+              render();
+            });
+          });
+
+          document.getElementById('dark-mode-toggle').addEventListener('click', () => {
+            state.settings.darkMode = !state.settings.darkMode;
+            persistSettings();
+            render();
+          });
+
+          document.querySelectorAll('[data-cc-btn]').forEach((btn) => {
+            btn.addEventListener('click', () => {
+              state.settings.defaultCountryCode = btn.getAttribute('data-cc-btn');
+              persistSettings();
+              render();
+            });
+          });
+
+          document.getElementById('custom-cc-input').addEventListener('input', (e) => {
+            const val = e.target.value.trim();
+            if (/^\+?\d{1,4}$/.test(val)) {
+              state.settings.defaultCountryCode = val.startsWith('+') ? val : '+' + val;
+              persistSettings();
+            }
+          });
+
+          document.querySelectorAll('[data-insert-var]').forEach((btn) => {
+            btn.addEventListener('click', () => {
+              const v = btn.getAttribute('data-insert-var');
+              const cur = state.settings.reminderTemplate;
+              state.settings.reminderTemplate = cur + (cur && !cur.endsWith(' ') ? ' ' : '') + v;
+              persistSettings();
+              render();
+            });
+          });
+
+          document.getElementById('reminder-tpl-input').addEventListener('input', (e) => {
+            state.settings.reminderTemplate = e.target.value;
+            persistSettings();
+            const previewEl = document.getElementById('tpl-preview-text');
+            if (previewEl) previewEl.textContent = buildReminderMessage(state.settings.language === 'ar' ? 'أحمد محمد' : 'Ahmad', 1250);
+          });
+
+          document.getElementById('gmail-recipient-input').addEventListener('input', (e) => {
+            state.settings.backupEmail = e.target.value;
+            persistSettings();
+            const gmailLink = document.getElementById('send-gmail-link');
+            if (gmailLink) {
+              gmailLink.href = buildGmailComposeHref(
+                state.settings.backupEmail,
+                tr.appName + ' - ' + (state.settings.storeName || tr.appName) + ' (' + new Date().toISOString().slice(0, 10) + ')',
+                tr.appName + ' (' + (state.settings.storeName || tr.appName) + ')\n' + tr.lastBackupLabel + ' ' + new Date().toLocaleString()
+              );
+            }
+          });
+
+          document.getElementById('export-backup-btn').addEventListener('click', exportBackupFile);
+          document.getElementById('share-backup-btn').addEventListener('click', shareBackupFile);
+          document.getElementById('send-gmail-link').addEventListener('click', exportBackupFile);
+
+          const restoreInput = document.getElementById('restore-file-input');
+          document.getElementById('restore-backup-btn').addEventListener('click', () => restoreInput.click());
+          restoreInput.addEventListener('change', (e) => {
+            const file = e.target.files && e.target.files[0];
+            if (!file) return;
+            const reader = new FileReader();
+            reader.onload = () => {
+              try {
+                const parsed = JSON.parse(String(reader.result || ''));
+                if (!parsed || !Array.isArray(parsed.customers) || !Array.isArray(parsed.transactions)) {
+                  showToast(tr.restoreInvalidError);
+                  return;
+                }
+                openConfirmDialog({
+                  title: tr.restoreConfirmTitle,
+                  description: tr.restoreConfirmDesc,
+                  confirmLabel: tr.confirm,
+                  destructive: false,
+                  onConfirm: () => {
+                    state.customers = parsed.customers.filter((c) => c && typeof c.id === 'string' && typeof c.name === 'string');
+                    state.transactions = parsed.transactions.filter((tx) => tx && typeof tx.id === 'string' && typeof tx.customerId === 'string' && typeof tx.amount === 'number');
+                    if (parsed.settings && typeof parsed.settings === 'object') {
+                      state.settings = Object.assign({}, state.settings, parsed.settings);
+                    }
+                    persistCustomers();
+                    persistTransactions();
+                    persistSettings();
+                    state.activeView = 'home';
+                    showToast(tr.restoreSuccess);
+                    render();
+                  },
+                });
+              } catch (_) {
+                showToast(tr.restoreInvalidError);
+              }
+            };
+            reader.readAsText(file);
+            e.target.value = '';
+          });
+
+          const settingsInstallBtn = document.getElementById('settings-install-btn');
+          if (settingsInstallBtn) settingsInstallBtn.addEventListener('click', triggerPWAInstall);
+        }
+
+        function render() {
+          syncDocumentThemeAndLang();
+          const data = computeData();
+          const root = document.getElementById('app');
+
+          if (state.activeView === 'home') {
+            root.innerHTML = renderHomeView(data);
+            bindHomeEvents();
+          } else if (state.activeView === 'profile') {
+            root.innerHTML = renderProfileView(data);
+            if (state.activeView === 'profile') bindProfileEvents(data);
+            else bindHomeEvents();
+          } else if (state.activeView === 'calculator') {
+            root.innerHTML = renderCalculatorView(data);
+            if (state.activeView === 'calculator') bindCalculatorEvents();
+            else bindHomeEvents();
+          } else if (state.activeView === 'settings') {
+            root.innerHTML = renderSettingsView();
+            bindSettingsEvents();
+          }
+        }
+
+        // Keyboard support for desktop calculator view
+        window.addEventListener('keydown', (e) => {
+          if (state.activeView !== 'calculator') return;
+          const tag = e.target && e.target.tagName;
+          if (tag === 'INPUT' || tag === 'TEXTAREA') return;
+          const map = { '*': '×', '/': '÷', '-': '−', '+': '+', '.': '.' };
+          if (/^[0-9]$/.test(e.key)) {
+            const btn = document.querySelector('[data-calc-key="' + e.key + '"]');
+            if (btn) btn.click();
+          } else if (map[e.key]) {
+            if (e.key === '/') e.preventDefault();
+            const btn = document.querySelector('[data-calc-key="' + map[e.key] + '"]');
+            if (btn) btn.click();
+          } else if (e.key === 'Enter' || e.key === '=') {
+            e.preventDefault();
+            const btn = document.querySelector('[data-calc-key="="]');
+            if (btn) btn.click();
+          } else if (e.key === 'Backspace') {
+            const btn = document.getElementById('calc-bksp-btn');
+            if (btn) btn.click();
+          } else if (e.key === 'Escape') {
+            const btn = document.getElementById('calc-clear-btn');
+            if (btn) btn.click();
+          }
+        });
+
+        setInterval(() => {
+          state.nowTick = Date.now();
+          if (state.activeView === 'home') render();
+        }, 60000);
+
+        // PWA Install Prompt, Connectivity & Service Worker Registration
+        window.addEventListener('beforeinstallprompt', (e) => {
+          e.preventDefault();
+          pwa.deferredPrompt = e;
+          render();
+        });
+
+        window.addEventListener('appinstalled', () => {
+          pwa.isInstalled = true;
+          pwa.deferredPrompt = null;
+          render();
+        });
+
+        window.addEventListener('online', () => { pwa.isOnline = true; render(); });
+        window.addEventListener('offline', () => { pwa.isOnline = false; render(); });
+
+        if ('serviceWorker' in navigator) {
+          window.addEventListener('load', () => {
+            navigator.serviceWorker.register('/sw.js').catch(() => {});
+          });
+        }
+
+        render();
+      })();
+    </script>
+  </body>
+</html>
