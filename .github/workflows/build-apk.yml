@@ -37,10 +37,16 @@ jobs:
           fi
 
           npm run build
-          npx cap add android     
+          npx cap add android
           npx cap sync android
+
           MANIFEST=android/app/src/main/AndroidManifest.xml
-          grep -q READ_CONTACTS $MANIFEST || sed -i 's#</manifest>#    <uses-permission android:name="android.permission.READ_CONTACTS" />\n</manifest>#' $MANIFEST
+          if ! grep -q "android.permission.READ_CONTACTS" "$MANIFEST"; then
+            sed -i 's#</manifest>#    <uses-permission android:name="android.permission.READ_CONTACTS" />\n</manifest>#' "$MANIFEST"
+          fi
+          echo "=== Permissions in manifest ==="
+          grep -n "uses-permission" "$MANIFEST"
+          grep -q "android.permission.READ_CONTACTS" "$MANIFEST"
 
           cd android
           chmod +x gradlew
@@ -48,9 +54,9 @@ jobs:
 
           cd ..
           mkdir -p "$GITHUB_WORKSPACE/out"
-          cp android/app/build/outputs/apk/debug/app-debug.apk "$GITHUB_WORKSPACE/out/"
+          cp android/app/build/outputs/apk/debug/app-debug.apk "$GITHUB_WORKSPACE/out/daftar-build-${{ github.run_number }}.apk"
 
       - uses: actions/upload-artifact@v4
         with:
-          name: daftar-alhisabat-apk
-          path: out/app-debug.apk
+          name: daftar-apk-build-${{ github.run_number }}
+          path: out/*.apk
