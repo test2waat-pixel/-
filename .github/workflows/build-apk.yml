@@ -22,24 +22,33 @@ jobs:
 
       - uses: android-actions/setup-android@v3
 
-      - name: Install dependencies
-        run: npm install
-
-      - name: Build web app
-        run: npm run build
-
-      - name: Add Android platform
+      - name: Build APK
         run: |
+          set -e
+          APP_DIR=$(dirname "$(find . -name package.json -not -path '*/node_modules/*' | head -1)")
+          echo "App folder: $APP_DIR"
+          cd "$APP_DIR"
+
+          npm install --legacy-peer-deps
+          npm install --legacy-peer-deps @capacitor/core @capacitor/cli @capacitor/android @capgo/capacitor-contacts
+
+          if [ ! -f capacitor.config.ts ] && [ ! -f capacitor.config.json ]; then
+            printf '{"appId":"com.daftarhisabat.app","appName":"Daftar","webDir":"dist"}' > capacitor.config.json
+          fi
+
+          npm run build
           npx cap add android
           npx cap sync android
 
-      - name: Build APK
-        working-directory: android
-        run: |
+          cd android
           chmod +x gradlew
           ./gradlew assembleDebug
+
+          cd ..
+          mkdir -p "$GITHUB_WORKSPACE/out"
+          cp android/app/build/outputs/apk/debug/app-debug.apk "$GITHUB_WORKSPACE/out/"
 
       - uses: actions/upload-artifact@v4
         with:
           name: daftar-alhisabat-apk
-          path: android/app/build/outputs/apk/debug/app-debug.apk
+          path: out/app-debug.apk
