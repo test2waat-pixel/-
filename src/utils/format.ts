@@ -188,6 +188,8 @@ export async function pickContactFromDevice(): Promise<PickedContact | null> {
     // Use Android's system contact picker.
     try {
       const plugin = CapacitorContacts as any;
+      // Ask for the contacts permission first (Android shows its own dialog).
+      try { await plugin.requestPermissions?.(); } catch { /* ignore, picker may not need it */ }
       const result = await plugin.pickContacts({
         property: ContactProperty.PhoneNumber,
         properties: [ContactProperty.PhoneNumber],
