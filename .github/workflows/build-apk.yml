@@ -37,8 +37,10 @@ jobs:
           fi
 
           npm run build
-          npx cap add android
+          npx cap add android     
           npx cap sync android
+          MANIFEST=android/app/src/main/AndroidManifest.xml
+          grep -q READ_CONTACTS $MANIFEST || sed -i 's#</manifest>#    <uses-permission android:name="android.permission.READ_CONTACTS" />\n</manifest>#' $MANIFEST
 
           cd android
           chmod +x gradlew
