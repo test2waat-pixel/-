@@ -1252,6 +1252,9 @@
     <!-- Modal Container -->
     <div id="modal-root"></div>
 
+    <!-- Permission Request Modal Container -->
+    <div id="perm-modal-root"></div>
+
     <!-- Toast Container -->
     <div id="toast-root"></div>
 
@@ -1455,6 +1458,20 @@
             offlineBannerText: 'أنت تعمل الآن دون إنترنت — بياناتك محفوظة محلياً على جهازك',
             contactsBlockedHint: 'تعذّر فتح سجل الهاتف في هذا السياق (تأكد من منح الإذن في Chrome Android). يمكنك استيراد ملف (.vcf) أو إدخال الرقم يدوياً.',
             choosePhoneNumberLabel: 'اختر رقم الهاتف:',
+            contactsPermSection: 'أذونات الجهاز — جهات الاتصال',
+            contactsPermTitle: 'طلب إذن قراءة جهات الاتصال',
+            contactsPermDesc: 'يسمح هذا الإذن لتطبيق «دفتر الحسابات» بقراءة اسم العميل ورقم هاتفه من سجل الهاتف عند إضافته.',
+            contactsPermPrivacy: 'جميع جهات الاتصال المختارة تُحفظ محلياً على جهازك فقط ولا تُرسل إلى أي خادم.',
+            contactsPermAllowBtn: 'سماح بقراءة جهات الاتصال',
+            contactsPermDenyBtn: 'عدم السماح',
+            contactsPermRequestBtn: 'طلب إذن قراءة جهات الاتصال',
+            contactsPermRevokeBtn: 'إلغاء الإذن',
+            contactsPermGrantedToast: 'تم منح إذن قراءة جهات الاتصال',
+            contactsPermDeniedToast: 'تم رفض إذن قراءة جهات الاتصال',
+            contactsPermRevokedToast: 'تم إلغاء إذن قراءة جهات الاتصال',
+            contactsPermStatusGranted: 'الحالة: الإذن ممنوح',
+            contactsPermStatusDenied: 'الحالة: الإذن مرفوض',
+            contactsPermStatusPrompt: 'الحالة: لم يُطلب الإذن بعد',
           },
           en: {
             appName: 'Accounts Ledger',
@@ -1615,6 +1632,20 @@
             offlineBannerText: 'Offline Mode — Your ledger data stays safely stored on this device',
             contactsBlockedHint: 'Could not access device contacts here (ensure permission is granted on Chrome Android). You can import a .vcf card or type the number.',
             choosePhoneNumberLabel: 'Choose phone number:',
+            contactsPermSection: 'Device Permissions — Contacts',
+            contactsPermTitle: 'Contacts Read Permission',
+            contactsPermDesc: 'Allow "Accounts Ledger" to read a contact name and phone number from your phonebook when adding customers.',
+            contactsPermPrivacy: 'Selected contacts stay strictly local on your device and are never sent to any server.',
+            contactsPermAllowBtn: 'Allow Contacts Access',
+            contactsPermDenyBtn: 'Don’t Allow',
+            contactsPermRequestBtn: 'Request Contacts Permission',
+            contactsPermRevokeBtn: 'Revoke Permission',
+            contactsPermGrantedToast: 'Contacts read permission granted',
+            contactsPermDeniedToast: 'Contacts read permission denied',
+            contactsPermRevokedToast: 'Contacts permission revoked',
+            contactsPermStatusGranted: 'Status: Granted',
+            contactsPermStatusDenied: 'Status: Denied',
+            contactsPermStatusPrompt: 'Status: Not requested yet',
           },
           fr: {
             appName: 'Grand Livre des Comptes',
@@ -1775,6 +1806,20 @@
             offlineBannerText: 'Mode hors ligne — Vos données restent enregistrées localement',
             contactsBlockedHint: 'Accès aux contacts bloqué dans ce contexte. Importez un fichier .vcf ou saisissez le numéro.',
             choosePhoneNumberLabel: 'Choisir un numéro :',
+            contactsPermSection: 'Autorisations — Contacts',
+            contactsPermTitle: 'Autorisation de lecture des contacts',
+            contactsPermDesc: 'Autorisez « Grand Livre des Comptes » à lire le nom et le numéro d’un contact lors de l’ajout d’un client.',
+            contactsPermPrivacy: 'Les contacts sélectionnés restent strictement locaux sur votre appareil et ne sont envoyés à aucun serveur.',
+            contactsPermAllowBtn: 'Autoriser l’accès aux contacts',
+            contactsPermDenyBtn: 'Refuser',
+            contactsPermRequestBtn: 'Demander l’autorisation des contacts',
+            contactsPermRevokeBtn: 'Révoquer',
+            contactsPermGrantedToast: 'Autorisation de lecture des contacts accordée',
+            contactsPermDeniedToast: 'Autorisation de lecture des contacts refusée',
+            contactsPermRevokedToast: 'Autorisation révoquée',
+            contactsPermStatusGranted: 'Statut : Accordée',
+            contactsPermStatusDenied: 'Statut : Refusée',
+            contactsPermStatusPrompt: 'Statut : Non demandée',
           },
           tr: {
             appName: 'Hesap Defteri',
@@ -1935,6 +1980,20 @@
             offlineBannerText: 'Çevrimdışı Mod — Verileriniz cihazınızda güvenle saklanıyor',
             contactsBlockedHint: 'Bu bağlamda rehbere erişilemedi. Bir .vcf dosyası içe aktarabilir veya numarayı yazabilirsiniz.',
             choosePhoneNumberLabel: 'Telefon numarası seçin:',
+            contactsPermSection: 'Cihaz İzinleri — Kişiler',
+            contactsPermTitle: 'Kişileri Okuma İzni',
+            contactsPermDesc: 'Müşteri eklerken rehberinizden ad ve telefon numarası okuyabilmesi için «Hesap Defteri» uygulamasına izin verin.',
+            contactsPermPrivacy: 'Seçilen kişiler yalnızca cihazınızda yerel olarak saklanır ve hiçbir sunucuya gönderilmez.',
+            contactsPermAllowBtn: 'Kişilere Erişime İzin Ver',
+            contactsPermDenyBtn: 'İzin Verme',
+            contactsPermRequestBtn: 'Kişi Okuma İzni İste',
+            contactsPermRevokeBtn: 'İzni İptal Et',
+            contactsPermGrantedToast: 'Kişileri okuma izni verildi',
+            contactsPermDeniedToast: 'Kişileri okuma izni reddedildi',
+            contactsPermRevokedToast: 'Kişi izni iptal edildi',
+            contactsPermStatusGranted: 'Durum: İzin Verildi',
+            contactsPermStatusDenied: 'Durum: Reddedildi',
+            contactsPermStatusPrompt: 'Durum: Henüz İstenmedi',
           },
         };
 
@@ -1962,6 +2021,7 @@
           lastBackupAt: null,
           reminderDismissedUntil: null,
           backupEmail: '',
+          contactsPermission: 'prompt',
         };
 
         const state = {
@@ -1997,7 +2057,40 @@
           installDismissed: false,
           isOnline: typeof navigator !== 'undefined' ? navigator.onLine : true,
           supportedContactProps: ['name', 'tel'],
+          browserContactsPermission: null,
         };
+
+        function hasNativeContactsPicker() {
+          return (
+            'contacts' in navigator &&
+            'ContactsManager' in window &&
+            typeof navigator.contacts.select === 'function'
+          );
+        }
+
+        function getEffectiveContactsPermission() {
+          if (pwa.browserContactsPermission === 'denied') return 'denied';
+          return state.settings.contactsPermission || 'prompt';
+        }
+
+        function syncBrowserContactsPermission() {
+          if (navigator.permissions && typeof navigator.permissions.query === 'function') {
+            navigator.permissions.query({ name: 'contacts' }).then((status) => {
+              if (status && status.state) {
+                pwa.browserContactsPermission = status.state;
+                if (status.state === 'denied') {
+                  state.settings.contactsPermission = 'denied';
+                  persistSettings();
+                } else if (status.state === 'granted' && state.settings.contactsPermission !== 'denied') {
+                  state.settings.contactsPermission = 'granted';
+                  persistSettings();
+                }
+              }
+            }).catch(() => {});
+          }
+        }
+
+        syncBrowserContactsPermission();
 
         if (navigator.contacts && typeof navigator.contacts.getProperties === 'function') {
           navigator.contacts.getProperties().then((props) => {
@@ -2395,6 +2488,55 @@
           document.getElementById('modal-root').innerHTML = '';
         }
 
+        function closePermModal() {
+          const permRoot = document.getElementById('perm-modal-root');
+          if (permRoot) permRoot.innerHTML = '';
+        }
+
+        function openContactsPermissionDialog(opts) {
+          const tr = t();
+          const permRoot = document.getElementById('perm-modal-root') || document.getElementById('modal-root');
+          permRoot.innerHTML =
+            '<div class="modal-backdrop center" id="contacts-perm-backdrop" style="z-index:55;">' +
+              '<div class="modal-dialog" role="dialog" aria-modal="true">' +
+                '<div style="display:flex;align-items:flex-start;gap:12px;">' +
+                  '<div style="width:44px;height:44px;border-radius:14px;display:flex;align-items:center;justify-content:center;flex-shrink:0;background:var(--tint-taken-bg);color:var(--accent-emerald);">' +
+                    ICONS.contacts +
+                  '</div>' +
+                  '<div style="min-width:0;">' +
+                    '<h3 style="margin:0;font-size:16px;font-weight:800;">' + escapeHtml(tr.contactsPermTitle) + '</h3>' +
+                    '<p style="margin:6px 0 0;font-size:13px;color:var(--text-secondary);line-height:1.6;">' + escapeHtml(tr.contactsPermDesc) + '</p>' +
+                    '<p style="margin:8px 0 0;font-size:11px;color:var(--text-muted);line-height:1.5;">' + escapeHtml(tr.contactsPermPrivacy) + '</p>' +
+                  '</div>' +
+                '</div>' +
+                '<div style="display:flex;justify-content:flex-end;gap:10px;padding-top:8px;flex-wrap:wrap;">' +
+                  '<button type="button" class="btn btn-sm btn-secondary" id="contacts-perm-deny">' + escapeHtml(tr.contactsPermDenyBtn) + '</button>' +
+                  '<button type="button" class="btn btn-sm btn-emerald" id="contacts-perm-allow">' + ICONS.check + '<span>' + escapeHtml(tr.contactsPermAllowBtn) + '</span></button>' +
+                '</div>' +
+              '</div>' +
+            '</div>';
+
+          document.getElementById('contacts-perm-backdrop').addEventListener('click', (e) => {
+            if (e.target.id === 'contacts-perm-backdrop') closePermModal();
+          });
+          document.getElementById('contacts-perm-deny').addEventListener('click', () => {
+            state.settings.contactsPermission = 'denied';
+            persistSettings();
+            closePermModal();
+            showToast(tr.contactsPermDeniedToast);
+            if (opts && typeof opts.onDeny === 'function') opts.onDeny();
+          });
+          document.getElementById('contacts-perm-allow').addEventListener('click', () => {
+            state.settings.contactsPermission = 'granted';
+            persistSettings();
+            syncBrowserContactsPermission();
+            closePermModal();
+            showToast(tr.contactsPermGrantedToast);
+            // Invoke onAllow synchronously inside user click gesture so Chrome Android shows system Contacts permission
+            if (opts && typeof opts.onAllow === 'function') opts.onAllow();
+          });
+        }
+
         function openConfirmDialog(opts) {
           const tr = t();
           const modalRoot = document.getElementById('modal-root');
@@ -2538,14 +2680,8 @@
             }
           }
 
-          document.getElementById('pick-contacts-btn').addEventListener('click', () => {
-            hintEl.classList.add('hidden');
-            const hasContactsApi =
-              'contacts' in navigator &&
-              'ContactsManager' in window &&
-              typeof navigator.contacts.select === 'function';
-
-            if (hasContactsApi) {
+          function launchNativeContactsPicker() {
+            if (hasNativeContactsPicker()) {
               // Call select() synchronously inside user gesture for Chrome Android permission prompt
               navigator.contacts.select(pwa.supportedContactProps, { multiple: false })
                 .then((res) => {
@@ -2557,6 +2693,10 @@
                 })
                 .catch((err) => {
                   if (err && err.name === 'AbortError') return;
+                  if (err && err.name === 'SecurityError') {
+                    state.settings.contactsPermission = 'denied';
+                    persistSettings();
+                  }
                   hintEl.textContent = err && err.name === 'SecurityError'
                     ? tr.contactsBlockedHint
                     : tr.contactsUnsupportedHint;
@@ -2569,6 +2709,17 @@
             hintEl.textContent = tr.contactsUnsupportedHint;
             hintEl.classList.remove('hidden');
             vcfInput.click();
+          }
+
+          document.getElementById('pick-contacts-btn').addEventListener('click', () => {
+            hintEl.classList.add('hidden');
+            if (getEffectiveContactsPermission() !== 'granted') {
+              openContactsPermissionDialog({
+                onAllow: launchNativeContactsPicker,
+              });
+              return;
+            }
+            launchNativeContactsPicker();
           });
 
           document.getElementById('pick-vcf-btn').addEventListener('click', () => vcfInput.click());
@@ -3150,6 +3301,29 @@
 
               '<section class="surface-card stack-col" style="grid-column:1 / -1;">' +
                 '<div>' +
+                  '<h2 style="margin:0 0 6px;font-size:14px;font-weight:800;">' + escapeHtml(tr.contactsPermSection) + '</h2>' +
+                  '<p style="margin:0;font-size:12px;color:var(--text-muted);line-height:1.6;">' + escapeHtml(tr.contactsPermDesc) + '</p>' +
+                '</div>' +
+                (() => {
+                  const perm = getEffectiveContactsPermission();
+                  const statusLabel = perm === 'granted' ? tr.contactsPermStatusGranted : perm === 'denied' ? tr.contactsPermStatusDenied : tr.contactsPermStatusPrompt;
+                  const statusStyle = perm === 'granted'
+                    ? 'background:var(--tint-taken-bg);border-color:var(--tint-taken-border);color:var(--text-primary);'
+                    : perm === 'denied'
+                      ? 'background:var(--tint-given-bg);border-color:var(--tint-given-border);color:var(--text-primary);'
+                      : 'background:var(--tint-amber-bg);border-color:var(--tint-amber-border);color:var(--text-primary);';
+                  return (
+                    '<div class="offline-strip" style="' + statusStyle + '">' + ICONS.contacts + '<span style="flex:1;">' + escapeHtml(statusLabel) + '</span></div>' +
+                    '<div style="display:flex;gap:8px;flex-wrap:wrap;">' +
+                      '<button type="button" class="btn btn-sm btn-primary" id="request-contacts-perm-btn" style="flex:1;">' + ICONS.contacts + '<span>' + escapeHtml(tr.contactsPermRequestBtn) + '</span></button>' +
+                      (perm === 'granted' ? '<button type="button" class="btn btn-sm btn-danger-soft" id="revoke-contacts-perm-btn">' + escapeHtml(tr.contactsPermRevokeBtn) + '</button>' : '') +
+                    '</div>'
+                  );
+                })() +
+              '</section>' +
+
+              '<section class="surface-card stack-col" style="grid-column:1 / -1;">' +
+                '<div>' +
                   '<h2 style="margin:0 0 6px;font-size:14px;font-weight:800;">' + escapeHtml(tr.pwaInstallSection) + '</h2>' +
                   '<p style="margin:0;font-size:12px;color:var(--text-muted);line-height:1.6;">' + escapeHtml(tr.pwaInstallDesc) + '</p>' +
                 '</div>' +
@@ -3615,6 +3789,40 @@
 
           const settingsInstallBtn = document.getElementById('settings-install-btn');
           if (settingsInstallBtn) settingsInstallBtn.addEventListener('click', triggerPWAInstall);
+
+          const reqContactsPermBtn = document.getElementById('request-contacts-perm-btn');
+          if (reqContactsPermBtn) {
+            reqContactsPermBtn.addEventListener('click', () => {
+              openContactsPermissionDialog({
+                onAllow: () => {
+                  if (hasNativeContactsPicker()) {
+                    navigator.contacts.select(pwa.supportedContactProps, { multiple: false })
+                      .catch((err) => {
+                        if (err && err.name === 'SecurityError') {
+                          state.settings.contactsPermission = 'denied';
+                          persistSettings();
+                          showToast(tr.contactsPermDeniedToast);
+                        }
+                      })
+                      .finally(() => render());
+                    return;
+                  }
+                  render();
+                },
+                onDeny: () => render(),
+              });
+            });
+          }
+
+          const revokeContactsPermBtn = document.getElementById('revoke-contacts-perm-btn');
+          if (revokeContactsPermBtn) {
+            revokeContactsPermBtn.addEventListener('click', () => {
+              state.settings.contactsPermission = 'prompt';
+              persistSettings();
+              showToast(tr.contactsPermRevokedToast);
+              render();
+            });
+          }
         }
 
         function render() {
